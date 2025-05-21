@@ -1,3 +1,5 @@
-export default function Home() {
-    return <h1 className="text-6xl text-red-600">Hello</h1>;
+import Test from "@/components/Test";
+
+export default async function Home() {
+    return <Test />;
 }
