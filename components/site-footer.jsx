@@ -3,17 +3,15 @@ import { Logo } from "./logo";
 import Link from "next/link";
 
 export function SiteFooter({ className }) {
-    const year = new Date().getFullYear();
-
     return (
         <footer className={cn(className)}>
-            <div className="container pt-10 md:pt-0 pb-6 mx-auto flex items-center sm:flex-row flex-col">
+            <div className="container pt-6 md:pt-5 pb-6 mx-auto flex items-center md:flex-row flex-col border-t">
                 <Logo />
-                <p className="text-sm text-gray-800 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4 font-semibold">
-                    © {year} NeuroLearn - All right reserved
+                <p className="text-md text-center md:text-left md:ml-4 md:pl-4 md:border-l-2 md:border-gray-500 md:py-2 md:mt-0 mt-4 font-semibold">
+                    © {new Date().getFullYear()} NeuroLearn - All right reserved.
                 </p>
-                <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-                    <Link href="/" className="text-gray-800 cursor-pointer">
+                <span className="inline-flex md:ml-auto md:mt-0 mt-4 justify-center md:justify-start">
+                    <Link href="/" className="cursor-pointer">
                         <svg
                             fill="currentColor"
                             strokeLinecap="round"
@@ -25,7 +23,7 @@ export function SiteFooter({ className }) {
                             <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                         </svg>
                     </Link>
-                    <Link href="/" className="ml-3 text-gray-800 cursor-pointer">
+                    <Link href="/" className="ml-3 cursor-pointer">
                         <svg
                             fill="currentColor"
                             strokeLinecap="round"
@@ -37,7 +35,7 @@ export function SiteFooter({ className }) {
                             <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
                         </svg>
                     </Link>
-                    <Link href="/" className="ml-3 text-gray-800 cursor-pointer">
+                    <Link href="/" className="ml-3 cursor-pointer">
                         <svg
                             fill="none"
                             stroke="currentColor"
@@ -51,7 +49,7 @@ export function SiteFooter({ className }) {
                             <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
                         </svg>
                     </Link>
-                    <Link href="/" className="ml-3 text-gray-800 cursor-pointer">
+                    <Link href="/" className="ml-3 cursor-pointer">
                         <svg
                             fill="currentColor"
                             stroke="currentColor"

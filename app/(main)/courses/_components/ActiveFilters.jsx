@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 export default function ActiveFilters({ filter }) {
     return (
         <div className="flex items-center gap-2 flex-wrap">
-            {/* active categories */}
+            {/* //* active categories */}
             {filter.categories.length > 0 &&
                 filter.categories.map((category) => (
                     <Button
@@ -19,7 +19,8 @@ export default function ActiveFilters({ filter }) {
                         <X className="w-3" />
                     </Button>
                 ))}
-            {/* active prices */}
+
+            {/* //* active prices */}
             {filter.price.length > 0 &&
                 filter.price.map((price) => (
                     <Button

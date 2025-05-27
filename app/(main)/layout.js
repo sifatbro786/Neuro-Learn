@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 const navLinks = [
     {
         title: "Features",
-        href: "/#features",
+        href: "/#categories",
     },
     {
         title: "Pricing",

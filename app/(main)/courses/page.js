@@ -1,9 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/lib/formatPrice";
-import { ArrowRight } from "lucide-react";
-import { BookOpen } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import SearchCourse from "./_components/SearchCourse";
 import SortCourse from "./_components/SortCourse";
 import FilterCourseMobile from "./_components/FilterCourseMobile";
@@ -16,13 +10,13 @@ export default async function CoursesPage() {
     const courses = await getCoursesList();
 
     return (
-        <section id="courses" className="container space-y-6   dark:bg-transparent py-6">
+        <section className="container space-y-6 dark:bg-transparent py-6">
             {/* //? header */}
-            <div className="flex items-baseline justify-between  border-gray-200 border-b pb-6 flex-col gap-4 lg:flex-row">
+            <div className="flex items-baseline justify-between border-gray-200 border-b pb-2 lg:pb-6 flex-col gap-4 lg:flex-row">
                 {/* //* Search */}
                 <SearchCourse />
 
-                <div className="flex items-center justify-end gap-2 max-lg:w-full">
+                <div className="flex items-center justify-between lg:justify-end gap-2 max-lg:w-full">
                     {/* //* Sorting */}
                     <SortCourse />
 

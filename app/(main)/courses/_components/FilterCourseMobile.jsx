@@ -96,8 +96,8 @@ export default function FilterCourseMobile() {
                         <Accordion defaultValue={["categories"]} type="multiple">
                             {/* //* Categories filter */}
                             <AccordionItem value="categories">
-                                <AccordionTrigger className="py-3 text-sm text-gray-400 hover:text-gray-500">
-                                    <span className="font-medium text-gray-900">Categories</span>
+                                <AccordionTrigger className="py-3 text-sm">
+                                    <span className="font-medium">Categories</span>
                                 </AccordionTrigger>
 
                                 <AccordionContent className="pt-6 animate-none">
@@ -131,8 +131,8 @@ export default function FilterCourseMobile() {
 
                             {/* //* Price filter */}
                             <AccordionItem value="price">
-                                <AccordionTrigger className="py-3 text-sm text-gray-400 hover:text-gray-500">
-                                    <span className="font-medium text-gray-900">Price</span>
+                                <AccordionTrigger className="py-3 text-sm">
+                                    <span className="font-medium">Price</span>
                                 </AccordionTrigger>
 
                                 <AccordionContent className="pt-6 animate-none">

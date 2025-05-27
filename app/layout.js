@@ -23,7 +23,7 @@ export default async function RootLayout({ children }) {
     await dbConnect();
 
     return (
-        <html lang="en">
+        <html lang="en" className="scroll-smooth">
             <body className={cn(inter.className, poppins.className)}>
                 {children}
                 <Toaster richColors position="top-center" />
