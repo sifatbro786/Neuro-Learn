@@ -6,7 +6,7 @@ import { getCoursesList } from "@/queries/courses";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import CourseCard from "./courses/_components/CourseCard";
-import CategoryCard from "@/components/CategoryCard";
+import CategoryCard from "@/components/category-card";
 
 export default async function HomePage() {
     const courses = await getCoursesList();
@@ -71,7 +71,7 @@ export default async function HomePage() {
             </section>
 
             {/* //* Courses */}
-            <section className="container space-y-6   md:py-12 lg:py-24">
+            <section className="container space-y-6 py-12 lg:py-24">
                 <div className="flex items-center justify-between">
                     <SectionTitle>Courses</SectionTitle>
                     <Link
