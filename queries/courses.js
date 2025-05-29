@@ -6,8 +6,11 @@ import { Testimonial } from "@/models/testimonial-model";
 import { User } from "@/models/user-model";
 import { getTestimonialsForCourse } from "./testimonials";
 import { getEnrollmentsForCourse } from "./enrollments";
+import { dbConnect } from "@/service/mongo";
 
 export async function getCoursesList() {
+    await dbConnect();
+
     const courses = await Course.find({})
         .select(["title", "subtitle", "thumbnail", "price", "modules", "category", "instructor"])
         .populate({
@@ -32,6 +35,8 @@ export async function getCoursesList() {
 }
 
 export async function getCourseDetails(id) {
+    await dbConnect();
+
     const course = await Course.findById(id)
         .populate({
             path: "category",
@@ -59,6 +64,8 @@ export async function getCourseDetails(id) {
 }
 
 export async function getCourseDetailsByInstructor(instructorId) {
+    await dbConnect();
+
     const courses = await Course.find({ instructor: instructorId }).lean();
 
     //! Enrollments:
