@@ -43,10 +43,16 @@ export const SignupForm = ({ role }) => {
                 }),
             });
 
-            if (response.status === 201) router.push("/login");
-        } catch (err) {
             const data = await response.json();
-            alert(data.message || err.message);
+
+            if (response.status === 201) {
+                alert(data.message); // TODO: use toaster
+                router.push("/login");
+            } else {
+                alert(data.message || "Something went wrong"); // TODO: use toaster
+            }
+        } catch (err) {
+            console.error(er);
         }
     };
 

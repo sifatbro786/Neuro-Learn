@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "./models/user-model";
 import bcrypt from "bcryptjs";
+import { authConfig } from "./auth.config";
 
 export const {
     handlers: { GET, POST },
@@ -9,9 +10,7 @@ export const {
     signIn,
     signOut,
 } = NextAuth({
-    session: {
-        strategy: "jwt",
-    },
+    ...authConfig,
     providers: [
         CredentialsProvider({
             async authorize(credentials) {
@@ -21,7 +20,7 @@ export const {
                     const user = await User.findOne({ email: credentials?.email });
 
                     if (user) {
-                        const isMatch = bcrypt.compare(credentials?.password, user?.password);
+                        const isMatch = await bcrypt.compare(credentials?.password, user?.password);
 
                         if (isMatch) return user;
                         else {
