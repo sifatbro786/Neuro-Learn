@@ -6,8 +6,8 @@ import Link from "next/link";
 
 export default function CourseCard({ course }) {
     return (
-        <Link href={`/courses/${course?.id}`}>
-            <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
+        <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
+            <Link href={`/courses/${course?.id}`}>
                 <div className="relative w-full aspect-video rounded-md overflow-hidden">
                     <Image
                         fill
@@ -30,16 +30,15 @@ export default function CourseCard({ course }) {
                             <span>{course?.modules?.length} Chapters</span>
                         </div>
                     </div>
-
-                    <div className="flex items-center justify-between mt-4">
-                        <p className="text-md md:text-sm font-medium text-slate-700">
-                            {formatPrice(course?.price)}
-                        </p>
-
-                        <EnrollCourse asLink={true} />
-                    </div>
                 </div>
+            </Link>
+            <div className="flex items-center justify-between mt-4">
+                <p className="text-md md:text-sm font-medium text-slate-700">
+                    {formatPrice(course?.price)}
+                </p>
+
+                <EnrollCourse asLink={true} />
             </div>
-        </Link>
+        </div>
     );
 }

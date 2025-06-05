@@ -32,7 +32,7 @@ export default function Testimonials({ testimonials }) {
                                     <blockquote className="rounded-lg bg-gray-50 p-6  sm:p-8 shadow-sm">
                                         <div className="flex items-center gap-4">
                                             <Image
-                                                src={testimonial?.user?.profile_picture}
+                                                src={testimonial?.user?.profilePicture}
                                                 width={56}
                                                 height={56}
                                                 alt="user-photo"

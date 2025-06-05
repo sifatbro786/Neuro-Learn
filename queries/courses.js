@@ -75,8 +75,8 @@ export async function getCourseDetailsByInstructor(instructorId) {
             return enrollment;
         }),
     );
-    const totalEnrollments = enrollments.reduce((item, currentValue) => {
-        return item.length + currentValue.length;
+    const totalEnrollments = enrollments.reduce((acc, currentValue) => {
+        return acc + currentValue.length;
     }, 0);
 
     //! Testimonials:
@@ -92,8 +92,8 @@ export async function getCourseDetailsByInstructor(instructorId) {
 
     //! avgRating:
     const avgRating =
-        totalTestimonials.reduce((item, curr) => {
-            return item + curr.rating;
+        totalTestimonials.reduce((acc, curr) => {
+            return acc + curr.rating;
         }, 0) / totalTestimonials.length;
 
     return {
