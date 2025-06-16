@@ -6,7 +6,7 @@ import { getCoursesList } from "@/queries/courses";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import CourseCard from "./courses/_components/CourseCard";
-import CategoryCard from "@/components/category-card";
+import { CategoryCard } from "@/components/category-card";
 
 export default async function HomePage() {
     const courses = await getCoursesList();

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function CategoryCard({ category }) {
+export function CategoryCard({ category }) {
     return (
         <Link
             href={`/categories/${category?.id}`}

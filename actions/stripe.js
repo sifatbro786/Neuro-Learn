@@ -9,6 +9,9 @@ const CURRENCY = "usd";
 export async function createCheckoutSession(data) {
     const ui_mode = "hosted";
     const origin = headers().get("origin");
+    const courseId = data.get("courseId");
+    const courseName = data.get("courseName");
+    const coursePrice = data.get("coursePrice");
 
     const checkoutSession = await stripe.checkout.sessions.create({
         mode: "payment",
@@ -19,15 +22,15 @@ export async function createCheckoutSession(data) {
                 price_data: {
                     currency: CURRENCY,
                     product_data: {
-                        name: "How To Be Happy",
+                        name: courseName,
                     },
-                    unit_amount: formatAmountForStripe(1000, CURRENCY),
+                    unit_amount: formatAmountForStripe(coursePrice, CURRENCY),
                 },
             },
         ],
 
         ...(ui_mode === "hosted" && {
-            success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}&courseId=12345`,
+            success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}&courseId=${courseId}`,
             cancel_url: `${origin}/courses`,
         }),
 
@@ -41,8 +44,10 @@ export async function createCheckoutSession(data) {
 }
 
 export async function createPaymentIntent(data) {
+    const coursePrice = data.get("coursePrice");
+
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: formatAmountForStripe(1000, CURRENCY),
+        amount: formatAmountForStripe(coursePrice, CURRENCY),
         automatic_payment_methods: { enabled: true },
         currency: CURRENCY,
     });

@@ -42,6 +42,8 @@ export const SignupForm = ({ role }) => {
                     userRole,
                 }),
             });
+            console.log(response);
+            
 
             const data = await response.json();
 
@@ -52,7 +54,7 @@ export const SignupForm = ({ role }) => {
                 alert(data.message || "Something went wrong"); // TODO: use toaster
             }
         } catch (err) {
-            console.error(er);
+            console.error(err);
         }
     };
 

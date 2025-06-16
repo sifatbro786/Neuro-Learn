@@ -8,7 +8,7 @@ export function SiteFooter({ className }) {
             <div className="container pt-6 md:pt-5 pb-6 mx-auto flex items-center md:flex-row flex-col border-t">
                 <Logo />
                 <p className="text-md text-center md:text-left md:ml-4 md:pl-4 md:border-l-2 md:border-gray-500 md:py-2 md:mt-0 mt-4 font-semibold">
-                    © {new Date().getFullYear()} NeuroLearn - All right reserved.
+                    © {new Date().getFullYear()} Demo - All right reserved.
                 </p>
                 <span className="inline-flex md:ml-auto md:mt-0 mt-4 justify-center md:justify-start">
                     <Link href="/" className="cursor-pointer">

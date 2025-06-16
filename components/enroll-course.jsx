@@ -5,7 +5,7 @@ import { Button, buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { createCheckoutSession } from "@/actions/stripe";
 
-export default function EnrollCourse({ asLink }) {
+export default function EnrollCourse({ asLink, course }) {
     const formAction = async (data) => {
         const { url } = await createCheckoutSession(data);
         window.location.assign(url);
@@ -14,6 +14,8 @@ export default function EnrollCourse({ asLink }) {
     return (
         <>
             <form action={formAction}>
+                <input type="hidden" name="courseId" value={course?.id} />
+
                 {asLink ? (
                     <Button
                         type="submit"

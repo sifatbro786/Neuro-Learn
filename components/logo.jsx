@@ -1,12 +1,12 @@
-import Image from "next/image";
-import WebsiteLogo from "@/public/assets/images/logo.png";
-import { cn } from "@/lib/utils";
+// import Image from "next/image";
+// import WebsiteLogo from "@/public/assets/images/logo.png";
 import Link from "next/link";
 
-export const Logo = ({ className = "" }) => {
+export const Logo = () => {
     return (
         <Link href={"/"}>
-            <Image className={cn("max-w-[100px]", className)} src={WebsiteLogo} alt="logo" />
+            {/* <Image className="max-w-[100px]" src={WebsiteLogo} alt="logo" /> */}
+            <h2 className="text-2xl">Demo</h2>
         </Link>
     );
 };
