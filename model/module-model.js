@@ -5,22 +5,27 @@ const moduleSchema = new Schema({
         required: true,
         type: String,
     },
+
     description: {
         required: true,
         type: String,
     },
+
     status: {
         required: true,
         type: String,
     },
+
     slug: {
         required: true,
         type: String,
     },
+
     course: {
         required: true,
         type: String,
     },
+
     lessonIds: {
         required: true,
         type: [String],

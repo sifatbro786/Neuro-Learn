@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -8,8 +9,9 @@ const menu = [
     { label: "Enrolled Courses", href: "/account/enrolled-courses" },
 ];
 
-export default function Menu() {
+function Menu() {
     const pathname = usePathname();
+	
     return (
         <ul className="list-none sidebar-nav mb-0 mt-3" id="navmenu-nav">
             {menu.map((item, i) => (
@@ -35,3 +37,5 @@ export default function Menu() {
         </ul>
     );
 }
+
+export default Menu;

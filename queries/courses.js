@@ -1,9 +1,9 @@
 import { replaceMongoIdInArray, replaceMongoIdInObject } from "@/lib/convertData";
-import { Category } from "@/models/category-model";
-import { Course } from "@/models/course-model";
-import { Module } from "@/models/module-model";
-import { Testimonial } from "@/models/testimonial-model";
-import { User } from "@/models/user-model";
+import { Category } from "@/model/category-model";
+import { Course } from "@/model/course-model";
+import { Module } from "@/model/module-model";
+import { Testimonial } from "@/model/testimonial-model";
+import { User } from "@/model/user-model";
 import { getTestimonialsForCourse } from "./testimonials";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { dbConnect } from "@/service/mongo";

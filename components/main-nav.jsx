@@ -16,9 +16,12 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import Image from "next/image";
+import DemoUser from "/public/demoUser.png";
 
 export function MainNav({ items, children }) {
     const { data: session } = useSession();
+    // console.log(session);
 
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [loginSession, setLoginSession] = useState(null);
@@ -83,11 +86,15 @@ export function MainNav({ items, children }) {
                     <DropdownMenuTrigger asChild>
                         <div className="cursor-pointer">
                             <Avatar>
-                                <AvatarImage
-                                    src="https://github.com/shadcn.png"
-                                    alt="Man/Woman-face"
+                                <Image
+                                    src={session?.user?.image || DemoUser}
+                                    alt={session?.user?.email}
+                                    height={40}
+                                    width={40}
                                 />
-                                <AvatarFallback>SS</AvatarFallback>
+                                <AvatarFallback>
+                                    {session?.user?.email.slice(0, 1).toUpperCase()}
+                                </AvatarFallback>
                             </Avatar>
                         </div>
                     </DropdownMenuTrigger>

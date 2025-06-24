@@ -5,10 +5,12 @@ const categorySchema = new Schema({
         required: true,
         type: String,
     },
+
     description: {
         required: false,
         type: String,
     },
+
     thumbnail: {
         required: true,
         type: String,

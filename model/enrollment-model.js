@@ -22,7 +22,6 @@ const enrollmentSchema = new Schema({
     },
 
     course: { type: Schema.ObjectId, ref: "Course" },
-
     student: { type: Schema.ObjectId, ref: "User" },
 });
 

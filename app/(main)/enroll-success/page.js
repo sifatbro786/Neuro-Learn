@@ -37,7 +37,6 @@ export default async function SuccessPage({ searchParams: { session_id, courseId
 
     if (paymentStatus === "succeeded") {
         const enrolled = await enrollForCourse(course?.id, loggedInUser?.id, "stripe");
-        console.log(enrolled);
 
         //? instructor info:
         const instructorName = `${course?.instructor?.firstName} ${course?.instructor?.lastName}`;

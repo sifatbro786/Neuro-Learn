@@ -16,8 +16,8 @@ export const SignupForm = ({ role }) => {
         try {
             const formData = new FormData(e.currentTarget);
 
-            const firstName = formData.get("first-name");
-            const lastName = formData.get("last-name");
+            const firstName = formData.get("firstName");
+            const lastName = formData.get("lastName");
             const email = formData.get("email");
             const userRole = role === "student" || role === "instructor" ? role : "student";
 
@@ -42,12 +42,9 @@ export const SignupForm = ({ role }) => {
                     userRole,
                 }),
             });
-            console.log(response);
-            
 
             const data = await response.json();
-
-            if (response.status === 201) {
+            if (response.ok) {
                 alert(data.message); // TODO: use toaster
                 router.push("/login");
             } else {
@@ -69,19 +66,14 @@ export const SignupForm = ({ role }) => {
                     <div className="grid gap-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="first-name">First name</Label>
-                                <Input
-                                    id="first-name"
-                                    name="first-name"
-                                    placeholder="Max"
-                                    required
-                                />
+                                <Label htmlFor="firstName">First name</Label>
+                                <Input id="firstName" name="firstName" placeholder="Max" required />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="last-name">Last name</Label>
+                                <Label htmlFor="lastName">Last name</Label>
                                 <Input
-                                    id="last-name"
-                                    name="last-name"
+                                    id="lastName"
+                                    name="lastName"
                                     placeholder="Robinson"
                                     required
                                 />

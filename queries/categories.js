@@ -1,5 +1,5 @@
 import { replaceMongoIdInArray } from "@/lib/convertData";
-import { Category } from "@/models/category-model";
+import { Category } from "@/model/category-model";
 
 export async function getCategories() {
     const categories = await Category.find({}).lean();

@@ -21,7 +21,7 @@ const navLinks = [
     },
 ];
 
-const MainLayout = ({ children }) => {
+export default async function MainLayout({ children }) {
     return (
         <div className="flex min-h-screen flex-col">
             <header className="z-40 bg-background/60 backdrop-blur-md fixed top-0 left-0 right-0 border-b ">
@@ -37,6 +37,4 @@ const MainLayout = ({ children }) => {
             <SiteFooter />
         </div>
     );
-};
-
-export default MainLayout;
+}
