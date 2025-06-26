@@ -7,6 +7,7 @@ export default async function AccountLayout({ tabs }) {
                 <div className="lg:flex">
                     {/* //? sidebar */}
                     <AccountSidebar />
+
                     <div className="lg:w-3/4 md:px-3 mt-[30px] lg:mt-0">{tabs}</div>
                 </div>
             </div>

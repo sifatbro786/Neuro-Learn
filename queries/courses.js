@@ -11,95 +11,124 @@ import { dbConnect } from "@/service/mongo";
 export async function getCoursesList() {
     await dbConnect();
 
-    const courses = await Course.find({})
-        .select(["title", "subtitle", "thumbnail", "price", "modules", "category", "instructor"])
-        .populate({
-            path: "category",
-            model: Category,
-        })
-        .populate({
-            path: "instructor",
-            model: User,
-        })
-        .populate({
-            path: "testimonials",
-            model: Testimonial,
-        })
-        .populate({
-            path: "modules",
-            model: Module,
-        })
-        .lean();
+    try {
+        const courses = await Course.find({})
+            .select([
+                "title",
+                "subtitle",
+                "thumbnail",
+                "price",
+                "modules",
+                "category",
+                "instructor",
+            ])
+            .populate({
+                path: "category",
+                model: Category,
+            })
+            .populate({
+                path: "instructor",
+                model: User,
+            })
+            .populate({
+                path: "testimonials",
+                model: Testimonial,
+            })
+            .populate({
+                path: "modules",
+                model: Module,
+            })
+            .lean();
 
-    return replaceMongoIdInArray(courses);
+        return replaceMongoIdInArray(courses);
+    } catch (err) {
+        throw new Error(err);
+    }
 }
 
 export async function getCourseDetails(id) {
     await dbConnect();
 
-    const course = await Course.findById(id)
-        .populate({
-            path: "category",
-            model: Category,
-        })
-        .populate({
-            path: "instructor",
-            model: User,
-        })
-        .populate({
-            path: "testimonials",
-            model: Testimonial,
-            populate: {
-                path: "user",
+    try {
+        const course = await Course.findById(id)
+            .populate({
+                path: "category",
+                model: Category,
+            })
+            .populate({
+                path: "instructor",
                 model: User,
-            },
-        })
-        .populate({
-            path: "modules",
-            model: Module,
-        })
-        .lean();
+            })
+            .populate({
+                path: "testimonials",
+                model: Testimonial,
+                populate: {
+                    path: "user",
+                    model: User,
+                },
+            })
+            .populate({
+                path: "modules",
+                model: Module,
+            })
+            .lean();
 
-    return replaceMongoIdInObject(course);
+        return replaceMongoIdInObject(course);
+    } catch (err) {
+        throw new Error(err);
+    }
 }
 
 export async function getCourseDetailsByInstructor(instructorId) {
     await dbConnect();
 
-    const courses = await Course.find({ instructor: instructorId }).lean();
+    try {
+        const courses = await Course.find({ instructor: instructorId })
+            .populate({
+                path: "category",
+                model: Category,
+            })
+            .populate({
+                path: "instructor",
+                model: User,
+            })
+            .lean();
 
-    //! Enrollments:
-    const enrollments = await Promise.all(
-        courses.map(async (course) => {
-            const enrollment = await getEnrollmentsForCourse(course?._id.toString());
-            return enrollment;
-        }),
-    );
-    const totalEnrollments = enrollments.reduce((acc, currentValue) => {
-        return acc + currentValue.length;
-    }, 0);
+        //! Enrollments:
+        const enrollments = await Promise.all(
+            courses.map(async (course) => {
+                const enrollment = await getEnrollmentsForCourse(course?._id.toString());
+                return enrollment;
+            }),
+        );
+        const totalEnrollments = enrollments.reduce((acc, currentValue) => {
+            return acc + currentValue.length;
+        }, 0);
 
-    //! Testimonials:
-    const testimonials = await Promise.all(
-        courses.map(async (course) => {
-            const testimonial = await getTestimonialsForCourse(course._id.toString());
-            return testimonial;
-        }),
-    );
+        //! Testimonials:
+        const testimonials = await Promise.all(
+            courses.map(async (course) => {
+                const testimonial = await getTestimonialsForCourse(course._id.toString());
+                return testimonial;
+            }),
+        );
 
-    //! Reviews:
-    const totalTestimonials = testimonials.flat();
+        //! Reviews:
+        const totalTestimonials = testimonials.flat();
 
-    //! avgRating:
-    const avgRating =
-        totalTestimonials.reduce((acc, curr) => {
-            return acc + curr.rating;
-        }, 0) / totalTestimonials.length;
+        //! avgRating:
+        const avgRating =
+            totalTestimonials.reduce((acc, curr) => {
+                return acc + curr.rating;
+            }, 0) / totalTestimonials.length;
 
-    return {
-        courses: courses.length,
-        enrollments: totalEnrollments,
-        reviews: totalTestimonials.length,
-        ratings: avgRating.toPrecision(2),
-    };
+        return {
+            courses: replaceMongoIdInArray(courses),
+            enrollments: totalEnrollments,
+            reviews: totalTestimonials.length,
+            ratings: avgRating.toPrecision(2),
+        };
+    } catch (err) {
+        throw new Error(err);
+    }
 }

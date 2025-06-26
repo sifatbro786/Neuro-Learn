@@ -1,9 +1,12 @@
+import { Button } from "@/components/ui/button";
 import { getCourseDetailsByInstructor } from "@/queries/courses";
 import { Presentation, UsersRound, Star, MessageSquare } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function CourseInstructor({ course }) {
     const instructor = course?.instructor;
+
     const fullName = instructor?.firstName + " " + instructor?.lastName;
     const courseDetailsByInstructor = await getCourseDetailsByInstructor(
         instructor?._id.toString(),
@@ -18,7 +21,7 @@ export default async function CourseInstructor({ course }) {
                         width={270}
                         height={310}
                         alt={fullName}
-                        className="w-full h-full object-cover rounded"
+                        className=" rounded"
                     />
                 </div>
                 <div className="flex-1">
@@ -32,7 +35,7 @@ export default async function CourseInstructor({ course }) {
                         <ul className="list space-y-4">
                             <li className="flex items-center space-x-3">
                                 <Presentation className="text-gray-600" />
-                                <div>{courseDetailsByInstructor.courses} Courses</div>
+                                <div>{courseDetailsByInstructor.courses.length} Courses</div>
                             </li>
                             <li className="flex space-x-3">
                                 <UsersRound className="text-gray-600" />
@@ -50,7 +53,10 @@ export default async function CourseInstructor({ course }) {
                     </div>
                 </div>
             </div>
-            <p className="text-gray-600">{instructor?.bio}</p>
+            <p className="text-gray-600 mb-6">{instructor?.bio}</p>
+            <Link href={`/inst-profile/${instructor?._id}`}>
+                <Button>See Profile</Button>
+            </Link>
         </div>
     );
 }
