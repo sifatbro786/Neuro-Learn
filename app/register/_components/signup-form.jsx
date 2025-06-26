@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const SignupForm = ({ role }) => {
     const router = useRouter();
@@ -45,13 +46,15 @@ export const SignupForm = ({ role }) => {
 
             const data = await response.json();
             if (response.ok) {
-                alert(data.message); // TODO: use toaster
+                toast.success("Sign-up successfully");
                 router.push("/login");
             } else {
-                alert(data.message || "Something went wrong"); // TODO: use toaster
+                alert(data.message || "Something went wrong");
+                toast.error(`Error: ${data?.message}`);
             }
         } catch (err) {
             console.error(err);
+            toast.error(`Error: ${err}`);
         }
     };
 

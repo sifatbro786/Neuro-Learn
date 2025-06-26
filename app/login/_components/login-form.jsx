@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { credentialLogin } from "@/actions";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function LoginForm() {
     const router = useRouter();
@@ -20,7 +21,9 @@ export function LoginForm() {
 
             if (!!response.error) {
                 console.error(response.error);
+                toast.error(response?.error);
             } else {
+                toast.success("Sign-in successfully");
                 router.push("/courses");
             }
         } catch (err) {
