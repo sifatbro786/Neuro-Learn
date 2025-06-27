@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 export async function getUserByEmail(email) {
     try {
-        const user = await User.findOne({ email: email }).lean();
+        const user = await User.findOne({ email: email }).select("-password").lean();
         return replaceMongoIdInObject(user);
     } catch (err) {
         throw new Error(err);

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { MobileNav } from "@/components/mobile-nav";
 import { X, Menu } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Logo } from "./logo";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -21,10 +21,10 @@ import DemoUser from "/public/demoUser.png";
 
 export function MainNav({ items, children }) {
     const { data: session } = useSession();
-    // console.log(session);
 
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [loginSession, setLoginSession] = useState(null);
+    const [loggedInUser, setLoggedInUser] = useState(null);
 
     if (session?.error === "RefreshAccessTokenError") {
         redirect("/login");
@@ -32,6 +32,18 @@ export function MainNav({ items, children }) {
 
     useEffect(() => {
         setLoginSession(session);
+
+        async function fetchMe() {
+            try {
+                const response = await fetch("api/me");
+                const data = await response.json();
+
+                setLoggedInUser(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchMe();
     }, [session]);
 
     return (
@@ -87,13 +99,18 @@ export function MainNav({ items, children }) {
                         <div className="cursor-pointer">
                             <Avatar>
                                 <Image
-                                    src={session?.user?.image || DemoUser}
+                                    src={
+                                        loggedInUser?.profilePicture ||
+                                        session?.user?.image ||
+                                        DemoUser
+                                    }
                                     alt={session?.user?.email}
                                     height={40}
                                     width={40}
                                 />
                                 <AvatarFallback>
-                                    {session?.user?.email.slice(0, 1).toUpperCase()}
+                                    {loggedInUser?.firstName.slice(0, 1).toUpperCase() +
+                                        loggedInUser?.lastName.slice(0, 1).toUpperCase()}
                                 </AvatarFallback>
                             </Avatar>
                         </div>
@@ -102,6 +119,11 @@ export function MainNav({ items, children }) {
                         <DropdownMenuItem className="cursor-pointer" asChild>
                             <Link href="/account">Profile</Link>
                         </DropdownMenuItem>
+                        {loggedInUser?.role === "instructor" && (
+                            <DropdownMenuItem className="cursor-pointer" asChild>
+                                <Link href="/dashboard">Dashboard</Link>
+                            </DropdownMenuItem>
+                        )}
                         <DropdownMenuItem className="cursor-pointer" asChild>
                             <Link href="/account/enrolled-courses">My Courses</Link>
                         </DropdownMenuItem>

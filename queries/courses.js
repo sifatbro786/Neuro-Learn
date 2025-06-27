@@ -105,6 +105,13 @@ export async function getCourseDetailsByInstructor(instructorId) {
             return acc + currentValue.length;
         }, 0);
 
+        //! Total Revenue:
+        const groupedByCourses = Object.groupBy(enrollments.flat(), ({ course }) => course);
+
+        const totalRevenue = courses.reduce((acc, course) => {
+            return acc + groupedByCourses[course?._id].length * course?.price;
+        }, 0);
+
         //! Testimonials:
         const testimonials = await Promise.all(
             courses.map(async (course) => {
@@ -127,6 +134,7 @@ export async function getCourseDetailsByInstructor(instructorId) {
             enrollments: totalEnrollments,
             reviews: totalTestimonials.length,
             ratings: avgRating.toPrecision(2),
+            revenue: totalRevenue,
         };
     } catch (err) {
         throw new Error(err);
