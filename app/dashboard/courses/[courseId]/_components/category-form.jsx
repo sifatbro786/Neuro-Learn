@@ -105,7 +105,7 @@ export const CategoryForm = ({
                     {selectedOptions?.label || "No category"}
                 </p>
             )}
-            {console.log({ options })}
+            {/* {console.log({ options })} */}
             {isEditing && (
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">

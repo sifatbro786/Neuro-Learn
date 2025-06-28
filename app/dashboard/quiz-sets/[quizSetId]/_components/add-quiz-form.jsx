@@ -104,11 +104,11 @@ export const AddQuizForm = ({ setQuizes }) => {
     });
 
     const { isSubmitting, isValid, errors } = form.formState;
-    console.log(errors);
+    // console.log(errors);
 
     const onSubmit = async (values) => {
         try {
-            console.log({ values });
+            // console.log({ values });
 
             const structuredQuiz = {
                 id: Date.now(),

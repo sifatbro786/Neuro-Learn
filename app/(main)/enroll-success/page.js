@@ -56,7 +56,7 @@ export default async function SuccessPage({ searchParams: { session_id, courseId
         ];
 
         const emailSentResponse = await sendEmails(emailsToSend);
-        console.log(emailSentResponse);
+        // console.log(emailSentResponse);
     }
 
     return (

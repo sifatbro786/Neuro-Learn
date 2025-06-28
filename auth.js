@@ -38,7 +38,7 @@ import { dbConnect } from "./service/mongo";
             refreshToken: refreshedTokens?.refresh_token,
         };
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
         return {
             ...token,
