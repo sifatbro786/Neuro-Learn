@@ -1,15 +1,16 @@
 "use client";
-import * as React from "react";
+
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { createContext, forwardRef, useCallback, useContext, useEffect } from "react";
 
-const CarouselContext = React.createContext(null);
+const CarouselContext = createContext(null);
 
 function useCarousel() {
-    const context = React.useContext(CarouselContext);
+    const context = useContext(CarouselContext);
 
     if (!context) {
         throw new Error("useCarousel must be used within a <Carousel />");
@@ -18,7 +19,7 @@ function useCarousel() {
     return context;
 }
 
-const Carousel = React.forwardRef(
+const Carousel = forwardRef(
     ({ orientation = "horizontal", opts, setApi, plugins, className, children, ...props }, ref) => {
         const [carouselRef, api] = useEmblaCarousel(
             {
@@ -39,15 +40,15 @@ const Carousel = React.forwardRef(
             setCanScrollNext(api.canScrollNext());
         }, []);
 
-        const scrollPrev = React.useCallback(() => {
+        const scrollPrev = useCallback(() => {
             api?.scrollPrev();
         }, [api]);
 
-        const scrollNext = React.useCallback(() => {
+        const scrollNext = useCallback(() => {
             api?.scrollNext();
         }, [api]);
 
-        const handleKeyDown = React.useCallback(
+        const handleKeyDown = useCallback(
             (event) => {
                 if (event.key === "ArrowLeft") {
                     event.preventDefault();
@@ -60,7 +61,7 @@ const Carousel = React.forwardRef(
             [scrollPrev, scrollNext],
         );
 
-        React.useEffect(() => {
+        useEffect(() => {
             if (!api || !setApi) {
                 return;
             }
@@ -68,7 +69,7 @@ const Carousel = React.forwardRef(
             setApi(api);
         }, [api, setApi]);
 
-        React.useEffect(() => {
+        useEffect(() => {
             if (!api) {
                 return;
             }

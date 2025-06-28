@@ -1,12 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { formatMyDate } from "@/lib/date";
 import { ArrowUpDown } from "lucide-react";
 
 export const columns = [
     {
         id: "name",
-        accessorKey: "student.name",
+        accessorKey: "studentName",
         header: ({ column }) => {
             return (
                 <Button
@@ -19,7 +20,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "student.email",
+        accessorKey: "studentEmail",
         header: ({ column }) => {
             return (
                 <Button
@@ -32,7 +33,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "student.quizMark",
+        accessorKey: "quizMark",
         header: ({ column }) => {
             return (
                 <Button
@@ -45,7 +46,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "student.progress",
+        accessorKey: "progress",
         header: ({ column }) => {
             return (
                 <Button
@@ -56,9 +57,13 @@ export const columns = [
                 </Button>
             );
         },
+        cell: ({ row }) => {
+            const progress = row.getValue("progress");
+            return `${progress}%`;
+        },
     },
     {
-        accessorKey: "date",
+        accessorKey: "enrollment_date",
         header: ({ column }) => {
             return (
                 <Button
@@ -69,35 +74,9 @@ export const columns = [
                 </Button>
             );
         },
+        cell: ({ row }) => {
+            const enrollmentDate = row.getValue("enrollment_date");
+            return formatMyDate(enrollmentDate);
+        },
     },
-    // {
-    //   id: "actions",
-    //   cell: ({ row }) => {
-    //     const { id } = row.original;
-    //     return (
-    //       <DropdownMenu>
-    //         <DropdownMenuTrigger asChild>
-    //           <Button variant="ghost" className="h-4 w-8 p-0">
-    //             <span className="sr-only">Open Menu</span>
-    //             <MoreHorizontal className="h-4 w-4" />
-    //           </Button>
-    //         </DropdownMenuTrigger>
-    //         <DropdownMenuContent align="end">
-    //           <Link href={`/dashboard/courses/${id}`}>
-    //             <DropdownMenuItem className="cursor-pointer">
-    //               <Pencil className="h-4 w-4 mr-2" />
-    //               Edit
-    //             </DropdownMenuItem>
-    //           </Link>
-    //           <Link href={`/dashboard/courses/${id}/enrollments`}>
-    //             <DropdownMenuItem className="cursor-pointer">
-    //               <GraduationCap className="h-4 w-4 mr-2" />
-    //               View Enrollments
-    //             </DropdownMenuItem>
-    //           </Link>
-    //         </DropdownMenuContent>
-    //       </DropdownMenu>
-    //     );
-    //   },
-    // },
 ];

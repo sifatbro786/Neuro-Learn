@@ -3,7 +3,7 @@ import { getUserByEmail } from "@/queries/users";
 import { dbConnect } from "@/service/mongo";
 import { NextResponse } from "next/server";
 
-export const GET = async (request) => {
+export const GET = async (_request) => {
     const session = await auth();
     if (!session?.user) {
         return new NextResponse(`You are not authenticated!`, {

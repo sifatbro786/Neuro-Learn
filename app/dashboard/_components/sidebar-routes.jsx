@@ -4,7 +4,6 @@ import { BarChart } from "lucide-react";
 import { BookOpen } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 import { BookA } from "lucide-react";
-import { Radio } from "lucide-react";
 
 const routes = [
     {
@@ -21,11 +20,6 @@ const routes = [
         icon: BookOpen,
         label: "Add Course",
         href: "/dashboard/courses/add",
-    },
-    {
-        icon: Radio,
-        label: "Lives",
-        href: "/dashboard/lives",
     },
     {
         icon: BookA,

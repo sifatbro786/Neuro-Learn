@@ -7,12 +7,17 @@ import CourseCard from "../../courses/_components/CourseCard";
 const InstructorProfile = async ({ params: { instructorId } }) => {
     //? Instructor Courses Details:
     const courseDetailsByInstructor = await getCourseDetailsByInstructor(instructorId.toString());
-    const courses = courseDetailsByInstructor?.courses;
 
     //? Instructor Info:
-    const filterInstructor = courseDetailsByInstructor?.courses.find(
+    const courseDetailsByInstructor2 = await getCourseDetailsByInstructor(
+        instructorId.toString(),
+        true,
+    );
+    const courses = courseDetailsByInstructor2?.courses;
+    const filterInstructor = courses.find(
         ({ instructor }) => instructor?._id.toString() === instructorId,
     );
+
     const instructor = filterInstructor?.instructor;
     const fullName = instructor?.firstName + " " + instructor?.lastName;
 
@@ -40,9 +45,7 @@ const InstructorProfile = async ({ params: { instructorId } }) => {
                                 <ul className=" items-center gap-3 flex-wrap text-sm text-gray-600 font-medium grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 md:grid-cols-4">
                                     <li className="flex items-center space-x-3">
                                         <Presentation className="text-gray-600 w-4" />
-                                        <div>
-                                            {courseDetailsByInstructor.courses.length} Courses
-                                        </div>
+                                        <div>{courseDetailsByInstructor.courses} Courses</div>
                                     </li>
                                     <li className="flex items-center space-x-3">
                                         <UsersRound className="text-gray-600 w-4" />

@@ -79,7 +79,7 @@ export async function getCourseDetails(id) {
     }
 }
 
-export async function getCourseDetailsByInstructor(instructorId) {
+export async function getCourseDetailsByInstructor(instructorId, expand) {
     await dbConnect();
 
     try {
@@ -129,8 +129,16 @@ export async function getCourseDetailsByInstructor(instructorId) {
                 return acc + curr.rating;
             }, 0) / totalTestimonials.length;
 
+        if (expand) {
+            return {
+                courses: courses.flat(),
+                enrollments: enrollments.flat(),
+                reviews: totalTestimonials,
+            };
+        }
+
         return {
-            courses: replaceMongoIdInArray(courses),
+            courses: courses.length,
             enrollments: totalEnrollments,
             reviews: totalTestimonials.length,
             ratings: avgRating.toPrecision(2),

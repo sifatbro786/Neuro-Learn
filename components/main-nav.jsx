@@ -35,7 +35,7 @@ export function MainNav({ items, children }) {
 
         async function fetchMe() {
             try {
-                const response = await fetch("api/me");
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/me`);
                 const data = await response.json();
 
                 setLoggedInUser(data);

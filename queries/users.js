@@ -11,6 +11,11 @@ export async function getUserByEmail(email) {
     }
 }
 
+export async function getUserDetails(userId) {
+    const user = await User.findById(userId).select("-password").lean();
+    return replaceMongoIdInObject(user);
+}
+
 export async function validatePassword(email, password) {
     try {
         const user = await getUserByEmail(email);

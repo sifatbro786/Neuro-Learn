@@ -24,7 +24,7 @@ const DashboardPage = async () => {
                         <CardTitle className="text-sm font-medium">Total Courses</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{courseStats?.courses.length}</div>
+                        <div className="text-2xl font-bold">{courseStats?.courses}</div>
                     </CardContent>
                 </Card>
 
