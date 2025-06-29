@@ -12,7 +12,7 @@ export async function getCoursesList() {
     await dbConnect();
 
     try {
-        const courses = await Course.find({})
+        const courses = await Course.find({ active: true })
             .select([
                 "title",
                 "subtitle",
@@ -83,7 +83,7 @@ export async function getCourseDetailsByInstructor(instructorId, expand) {
     await dbConnect();
 
     try {
-        const courses = await Course.find({ instructor: instructorId })
+        const publishedCourses = await Course.find({ instructor: instructorId, active: true })
             .populate({
                 path: "category",
                 model: Category,
@@ -96,7 +96,7 @@ export async function getCourseDetailsByInstructor(instructorId, expand) {
 
         //! Enrollments:
         const enrollments = await Promise.all(
-            courses.map(async (course) => {
+            publishedCourses.map(async (course) => {
                 const enrollment = await getEnrollmentsForCourse(course?._id.toString());
                 return enrollment;
             }),
@@ -108,13 +108,13 @@ export async function getCourseDetailsByInstructor(instructorId, expand) {
         //! Total Revenue:
         const groupedByCourses = Object.groupBy(enrollments.flat(), ({ course }) => course);
 
-        const totalRevenue = courses.reduce((acc, course) => {
+        const totalRevenue = publishedCourses.reduce((acc, course) => {
             return acc + groupedByCourses[course?._id].length * course?.price;
         }, 0);
 
         //! Testimonials:
         const testimonials = await Promise.all(
-            courses.map(async (course) => {
+            publishedCourses.map(async (course) => {
                 const testimonial = await getTestimonialsForCourse(course._id.toString());
                 return testimonial;
             }),
@@ -130,20 +130,31 @@ export async function getCourseDetailsByInstructor(instructorId, expand) {
             }, 0) / totalTestimonials.length;
 
         if (expand) {
+            const allCourses = await Course.find({ instructor: instructorId }).lean();
+
             return {
-                courses: courses.flat(),
+                courses: allCourses.flat(),
                 enrollments: enrollments.flat(),
                 reviews: totalTestimonials,
             };
         }
 
         return {
-            courses: courses.length,
+            courses: publishedCourses.length,
             enrollments: totalEnrollments,
             reviews: totalTestimonials.length,
             ratings: avgRating.toPrecision(2),
             revenue: totalRevenue,
         };
+    } catch (err) {
+        throw new Error(err);
+    }
+}
+
+export async function create(courseData) {
+    try {
+        const course = await Course.create(courseData);
+        return JSON.parse(JSON.stringify(course));
     } catch (err) {
         throw new Error(err);
     }

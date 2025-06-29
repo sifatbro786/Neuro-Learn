@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { createCourse } from "@/actions/course";
 
 const formSchema = z.object({
     title: z.string().min(1, {
@@ -43,19 +44,19 @@ const AddCourse = () => {
 
     const onSubmit = async (values) => {
         try {
-            router.push(`/dashboard/courses/${1}`);
-            toast.success("Course created");
+            const course = await createCourse(values);
+            router.push(`/dashboard/courses/${course?._id}`);
+            toast.success("Course created successfully.");
         } catch (error) {
-            toast.error("Something went wrong");
+            toast.error("Something went wrong!");
         }
-        // console.log(values);
     };
     return (
         <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
             <div className="max-w-full w-[536px]">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-8">
-                        {/* title */}
+                        {/* //? title */}
                         <FormField
                             control={form.control}
                             name="title"
@@ -73,7 +74,7 @@ const AddCourse = () => {
                                 </FormItem>
                             )}
                         />
-                        {/* description */}
+                        {/* //? description */}
                         <FormField
                             control={form.control}
                             name="description"
