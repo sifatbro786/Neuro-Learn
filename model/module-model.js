@@ -7,13 +7,13 @@ const moduleSchema = new Schema({
     },
 
     description: {
-        required: true,
         type: String,
     },
 
-    status: {
+    active: {
         required: true,
-        type: String,
+        default: false,
+        type: Boolean,
     },
 
     slug: {
@@ -23,12 +23,17 @@ const moduleSchema = new Schema({
 
     course: {
         required: true,
-        type: String,
+        type: Schema.ObjectId,
     },
 
     lessonIds: {
         required: true,
-        type: [String],
+        type: [Schema.ObjectId],
+    },
+
+    order: {
+        required: true,
+        type: Number,
     },
 });
 

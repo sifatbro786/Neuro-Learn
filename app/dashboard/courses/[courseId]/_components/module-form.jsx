@@ -12,26 +12,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ModuleList } from "./module-list";
+import { getSlug } from "@/lib/convertData";
+import { createModule, reOrderModules } from "@/actions/module";
 
 const formSchema = z.object({
     title: z.string().min(1),
 });
-const initialModules = [
-    {
-        id: "1",
-        title: "Module 1",
-        isPublished: true,
-    },
-    {
-        id: "2",
-        title: "Module 2",
-    },
-];
+
 export const ModulesForm = ({ initialData, courseId }) => {
-    const [modules, setModules] = useState(initialModules);
-    const router = useRouter();
+    const [modules, setModules] = useState(initialData);
     const [isCreating, setIsCreating] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
+    const router = useRouter();
 
     const toggleCreating = () => setIsCreating((current) => !current);
 
@@ -46,14 +38,22 @@ export const ModulesForm = ({ initialData, courseId }) => {
 
     const onSubmit = async (values) => {
         try {
+            const formData = new FormData();
+            formData.append("title", values?.title);
+            formData.append("slug", getSlug(values?.title));
+            formData.append("courseId", courseId);
+            formData.append("order", modules.length);
+
+            const moduleData = await createModule(formData);
+
             setModules((modules) => [
                 ...modules,
                 {
-                    id: Date.now().toString(),
+                    id: moduleData?._id.toString(),
                     title: values.title,
                 },
             ]);
-            toast.success("Module created");
+            toast.success("Course module has been created");
             toggleCreating();
             router.refresh();
         } catch (error) {
@@ -62,11 +62,11 @@ export const ModulesForm = ({ initialData, courseId }) => {
     };
 
     const onReorder = async (updateData) => {
-        // console.log({ updateData });
         try {
-            setIsUpdating(true);
+            await reOrderModules(updateData);
 
-            toast.success("Chapters reordered");
+            setIsUpdating(true);
+            toast.success("Modules reordered");
             router.refresh();
         } catch {
             toast.error("Something went wrong");
