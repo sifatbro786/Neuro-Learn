@@ -13,24 +13,16 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { LessonList } from "./lesson-list";
 import { LessonModal } from "./lesson-modal";
+import { getSlug } from "@/lib/convertData";
+import { createLesson, reOrderLesson } from "@/actions/lesson";
 
 const formSchema = z.object({
     title: z.string().min(1),
 });
-const initialModules = [
-    {
-        id: "1",
-        title: "Module 1",
-        isPublished: true,
-    },
-    {
-        id: "2",
-        title: "Module 2",
-    },
-];
-export const LessonForm = ({ initialData, courseId }) => {
+
+export const LessonForm = ({ initialData, moduleId }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [modules, setModules] = useState(initialModules);
+    const [lessons, setLessons] = useState(initialData);
     const router = useRouter();
     const [isCreating, setIsCreating] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
@@ -49,14 +41,22 @@ export const LessonForm = ({ initialData, courseId }) => {
 
     const onSubmit = async (values) => {
         try {
-            setModules((modules) => [
-                ...modules,
+            const formData = new FormData();
+            formData.append("title", values.title);
+            formData.append("slug", getSlug(values.title));
+            formData.append("moduleId", moduleId);
+            formData.append("order", lessons.length);
+
+            const lesson = await createLesson(formData);
+
+            setLessons((lessons) => [
+                ...lessons,
                 {
-                    id: Date.now().toString(),
+                    id: lesson?._id.toString(),
                     title: values.title,
                 },
             ]);
-            toast.success("Module created");
+            toast.success("Lesson created");
             toggleCreating();
             router.refresh();
         } catch (error) {
@@ -65,10 +65,9 @@ export const LessonForm = ({ initialData, courseId }) => {
     };
 
     const onReorder = async (updateData) => {
-        // console.log({ updateData });
         try {
             setIsUpdating(true);
-
+            await reOrderLesson(updateData);
             toast.success("Lesson reordered");
             router.refresh();
         } catch {
@@ -90,7 +89,7 @@ export const LessonForm = ({ initialData, courseId }) => {
                 </div>
             )}
             <div className="font-medium flex items-center justify-between">
-                Module Lessions
+                Module Lessons
                 <Button variant="ghost" onClick={toggleCreating}>
                     {isCreating ? (
                         <>Cancel</>
@@ -129,14 +128,14 @@ export const LessonForm = ({ initialData, courseId }) => {
                 </Form>
             )}
             {!isCreating && (
-                <div className={cn("text-sm mt-2", !modules?.length && "text-slate-500 italic")}>
-                    {!modules?.length && "No module"}
-                    <LessonList onEdit={onEdit} onReorder={onReorder} items={modules || []} />
+                <div className={cn("text-sm mt-2", !lessons?.length && "text-slate-500 italic")}>
+                    {!lessons?.length && "No lesson"}
+                    <LessonList onEdit={onEdit} onReorder={onReorder} items={lessons || []} />
                 </div>
             )}
             {!isCreating && (
                 <p className="text-xs text-muted-foreground mt-4">
-                    Drag & Drop to reorder the modules
+                    Drag & Drop to reorder the lessons
                 </p>
             )}
             <LessonModal open={isEditing} setOpen={setIsEditing} />
