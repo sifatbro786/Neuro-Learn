@@ -3,15 +3,12 @@
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { changeCoursePublishState, deleteCourse } from "@/actions/course";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { changeLessonPublishState, deleteLesson } from "@/actions/lesson";
 
-export const CourseActions = ({ courseId, isActive }) => {
+export const LessonActions = ({ lesson, moduleId, onDelete }) => {
     const [action, setAction] = useState(null);
-    const [published, setPublished] = useState(isActive);
-
-    const router = useRouter();
+    const [published, setPublished] = useState(lesson?.active);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,11 +17,10 @@ export const CourseActions = ({ courseId, isActive }) => {
             switch (action) {
                 case "change-active":
                     {
-                        const activeState = await changeCoursePublishState(courseId);
+                        const activeState = await changeLessonPublishState(lesson?.id);
                         setPublished(!activeState);
 
-                        toast.success("The course has been updated successfully");
-                        router.refresh();
+                        toast.success("The lesson has been updated");
                     }
                     break;
 
@@ -32,18 +28,18 @@ export const CourseActions = ({ courseId, isActive }) => {
                     {
                         if (published) {
                             toast.error(
-                                "A published course can not be deleted. First unpublished it, then delete.",
+                                "A published lesson can not be deleted. First unpublished it, then delete.",
                             );
                         } else {
-                            await deleteCourse(courseId);
-                            toast.success("The course has been deleted successfully");
-                            router.push("/dashboard/courses");
+                            await deleteLesson(lesson?.id, moduleId);
+                            toast.success("The lesson has been deleted successfully");
+                            onDelete();
                         }
                     }
                     break;
 
                 default: {
-                    throw new Error("Invalid Course Actions");
+                    throw new Error("Invalid Lesson Actions");
                 }
             }
         } catch (err) {

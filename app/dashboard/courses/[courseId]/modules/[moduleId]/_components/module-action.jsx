@@ -2,14 +2,14 @@
 
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { changeCoursePublishState, deleteCourse } from "@/actions/course";
+import { changeModulePublishState, deleteModule } from "@/actions/module";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
-export const CourseActions = ({ courseId, isActive }) => {
+export const ModuleActions = ({ moduleData, courseId }) => {
     const [action, setAction] = useState(null);
-    const [published, setPublished] = useState(isActive);
+    const [published, setPublished] = useState(moduleData?.active);
 
     const router = useRouter();
 
@@ -20,10 +20,10 @@ export const CourseActions = ({ courseId, isActive }) => {
             switch (action) {
                 case "change-active":
                     {
-                        const activeState = await changeCoursePublishState(courseId);
+                        const activeState = await changeModulePublishState(moduleData?.id);
                         setPublished(!activeState);
 
-                        toast.success("The course has been updated successfully");
+                        toast.success("The module has been updated successfully");
                         router.refresh();
                     }
                     break;
@@ -32,18 +32,18 @@ export const CourseActions = ({ courseId, isActive }) => {
                     {
                         if (published) {
                             toast.error(
-                                "A published course can not be deleted. First unpublished it, then delete.",
+                                "A published module can not be deleted. First unpublished it, then delete.",
                             );
                         } else {
-                            await deleteCourse(courseId);
-                            toast.success("The course has been deleted successfully");
-                            router.push("/dashboard/courses");
+                            await deleteModule(moduleData?.id, courseId);
+                            toast.success("The module has been deleted successfully");
+                            router.push(`/dashboard/courses/${courseId}`);
                         }
                     }
                     break;
 
                 default: {
-                    throw new Error("Invalid Course Actions");
+                    throw new Error("Invalid Module Actions");
                 }
             }
         } catch (err) {
