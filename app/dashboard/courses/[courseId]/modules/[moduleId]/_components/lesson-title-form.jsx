@@ -10,14 +10,17 @@ import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { getSlug } from "@/lib/convertData";
+import { updateLesson } from "@/actions/lesson";
 
 const formSchema = z.object({
     title: z.string().min(1),
 });
 
-export const LessonTitleForm = ({ initialData, courseId, lessonId }) => {
+export const LessonTitleForm = ({ initialData, lessonId }) => {
     const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
+    const [title, setTitle] = useState(initialData?.title);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -30,7 +33,11 @@ export const LessonTitleForm = ({ initialData, courseId, lessonId }) => {
 
     const onSubmit = async (values) => {
         try {
-            toast.success("Lesson updated");
+            values["slug"] = getSlug(values.title);
+            await updateLesson(lessonId, values);
+            setTitle(values.title);
+
+            toast.success("Lesson title updated");
             toggleEdit();
             router.refresh();
         } catch {
@@ -53,7 +60,7 @@ export const LessonTitleForm = ({ initialData, courseId, lessonId }) => {
                     )}
                 </Button>
             </div>
-            {!isEditing && <p className="text-sm mt-2">{"Introduction to React.js"}</p>}
+            {!isEditing && <p className="text-sm mt-2">{title}</p>}
             {isEditing && (
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">

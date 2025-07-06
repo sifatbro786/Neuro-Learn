@@ -24,7 +24,7 @@ const Module = async ({ params: { courseId, moduleId } }) => {
                     <div className="w-full">
                         <Link
                             href={`/dashboard/courses/${courseId}`}
-                            className="flex items-center text-sm hover:opacity-75 transition mb-6"
+                            className="flex items-center text-sm hover:opacity-75 transition mb-6 w-fit"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
                             Back to course setup
@@ -35,7 +35,7 @@ const Module = async ({ params: { courseId, moduleId } }) => {
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div className="space-y-4">
+                    <div className="space-y-10">
                         <div>
                             <div className="flex items-center gap-x-2">
                                 <IconBadge icon={LayoutDashboard} />
@@ -52,20 +52,12 @@ const Module = async ({ params: { courseId, moduleId } }) => {
                                 <IconBadge icon={BookOpenCheck} />
                                 <h2 className="text-xl">Module Lessons</h2>
                             </div>
-                            <LessonForm initialData={lessons} moduleId={moduleId} />
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            {/* <IconBadge icon={Video} />
-                                <h2 className="text-xl">Add a video</h2> */}
-                        </div>
-                        {/* <ChapterVideoForm
-                            initialData={chapter}
-                            courseId={params.courseId}
-                            chapterId={params.chapterId}
+                            <LessonForm
+                                initialData={lessons}
+                                moduleId={moduleId}
+                                courseId={courseId}
                             />
-                         */}
+                        </div>
                     </div>
                 </div>
             </div>

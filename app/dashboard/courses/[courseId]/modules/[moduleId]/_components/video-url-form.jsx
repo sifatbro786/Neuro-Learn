@@ -18,6 +18,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { VideoPlayer } from "@/components/video-player";
+import { updateLesson } from "@/actions/lesson";
+import { formatDuration } from "@/lib/date";
 
 const formSchema = z.object({
     url: z.string().min(1, {
@@ -28,24 +30,46 @@ const formSchema = z.object({
     }),
 });
 
-export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
+export const VideoUrlForm = ({ initialData, lessonId }) => {
     const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
+    const [state, setState] = useState({
+        url: initialData?.url,
+        duration: formatDuration(initialData?.duration),
+    });
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
-        defaultValues: initialData,
+        defaultValues: state,
     });
 
     const { isSubmitting, isValid } = form.formState;
 
     const onSubmit = async (values) => {
         try {
-            toast.success("Lesson updated");
-            toggleEdit();
-            router.refresh();
+            const payload = {};
+            payload["video_url"] = values?.url;
+
+            const duration = values?.duration;
+            const splitted = duration.split(":");
+
+            if (splitted.length === 3) {
+                payload["duration"] = splitted[0] * 3600 + splitted[1] * 60 + splitted[2] * 1;
+
+                await updateLesson(lessonId, payload);
+                setState({
+                    url: values.url,
+                    duration: values.duration,
+                });
+
+                toast.success("Lesson updated");
+                toggleEdit();
+                router.refresh();
+            } else {
+                toast.error("The duration format must be HH:MM:SS");
+            }
         } catch {
             toast.error("Something went wrong");
         }
@@ -68,18 +92,16 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
             </div>
             {!isEditing && (
                 <>
-                    <p className="text-sm mt-2">
-                        {"https://www.youtube.com/embed/Cn4G2lZ_g2I?si=8FxqU8_NU6rYOrG1"}
-                    </p>
+                    <p className="text-sm mt-2">{state?.url}</p>
                     <div className="mt-6">
-                        <VideoPlayer />
+                        <VideoPlayer url={state?.url} />
                     </div>
                 </>
             )}
             {isEditing && (
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-                        {/* url */}
+                        {/* //? url */}
                         <FormField
                             control={form.control}
                             name="url"
@@ -97,7 +119,8 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
                                 </FormItem>
                             )}
                         />
-                        {/* duration */}
+
+                        {/* //? duration */}
                         <FormField
                             control={form.control}
                             name="duration"
@@ -107,7 +130,7 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
                                     <FormControl>
                                         <Input
                                             disabled={isSubmitting}
-                                            placeholder="e.g. '10:30:18'"
+                                            placeholder="HH:MM:SS"
                                             {...field}
                                         />
                                     </FormControl>

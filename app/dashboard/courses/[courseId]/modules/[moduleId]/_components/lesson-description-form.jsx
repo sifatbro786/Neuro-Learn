@@ -12,14 +12,16 @@ import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { updateLesson } from "@/actions/lesson";
 
 const formSchema = z.object({
     description: z.string().min(1),
 });
 
-export const LessonDescriptionForm = ({ initialData, courseId, lessonId }) => {
+export const LessonDescriptionForm = ({ initialData, lessonId }) => {
     const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
+    const [description, setDescription] = useState(initialData?.description);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -34,7 +36,10 @@ export const LessonDescriptionForm = ({ initialData, courseId, lessonId }) => {
 
     const onSubmit = async (values) => {
         try {
-            toast.success("Lesson updated");
+            await updateLesson(lessonId, values);
+            setDescription(values.description);
+
+            toast.success("Lesson description updated");
             toggleEdit();
             router.refresh();
         } catch (error) {
@@ -58,14 +63,9 @@ export const LessonDescriptionForm = ({ initialData, courseId, lessonId }) => {
                 </Button>
             </div>
             {!isEditing && (
-                <div
-                    className={cn(
-                        "text-sm mt-2",
-                        !initialData.description && "text-slate-500 italic",
-                    )}
-                >
-                    {!initialData.description && "No description"}
-                    {initialData.description && <Preview value={initialData.description} />}
+                <div className={cn("text-sm mt-2", !description && "text-slate-500 italic")}>
+                    {!description && "No description"}
+                    {description && <Preview value={description} />}
                 </div>
             )}
             {isEditing && (

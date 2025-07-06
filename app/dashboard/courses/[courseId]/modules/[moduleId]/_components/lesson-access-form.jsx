@@ -11,21 +11,23 @@ import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { updateLesson } from "@/actions/lesson";
 
 const formSchema = z.object({
     isFree: z.boolean().default(false),
 });
 
-export const LessonAccessForm = ({ initialData, courseId, lessonId }) => {
+export const LessonAccessForm = ({ initialData, lessonId }) => {
     const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
+    const [free, setFree] = useState(initialData?.isFree);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            isFree: !!initialData.isFree,
+            isFree: !!free,
         },
     });
 
@@ -33,7 +35,17 @@ export const LessonAccessForm = ({ initialData, courseId, lessonId }) => {
 
     const onSubmit = async (values) => {
         try {
-            toast.success("Lesson updated");
+            const payload = {};
+            if (values.isFree) {
+                payload["access"] = "public";
+            } else {
+                payload["access"] = "private";
+            }
+
+            await updateLesson(lessonId, payload);
+            setFree(!free);
+
+            toast.success("Lesson access updated");
             toggleEdit();
             router.refresh();
         } catch (error) {
@@ -57,12 +69,8 @@ export const LessonAccessForm = ({ initialData, courseId, lessonId }) => {
                 </Button>
             </div>
             {!isEditing && (
-                <p className={cn("text-sm mt-2", !initialData.isFree && "text-slate-500 italic")}>
-                    {initialData.isFree ? (
-                        <>This chapter is free for preview</>
-                    ) : (
-                        <>This chapter is not free</>
-                    )}
+                <p className={cn("text-sm mt-2", !free && "text-slate-500 italic")}>
+                    {free ? <>This chapter is free for preview</> : <>This chapter is not free</>}
                 </p>
             )}
             {isEditing && (
