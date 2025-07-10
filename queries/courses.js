@@ -7,6 +7,7 @@ import { User } from "@/model/user-model";
 import { getTestimonialsForCourse } from "./testimonials";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { dbConnect } from "@/service/mongo";
+import { Lesson } from "@/model/lesson-model";
 
 export async function getCoursesList() {
     await dbConnect();
@@ -70,6 +71,10 @@ export async function getCourseDetails(id) {
             .populate({
                 path: "modules",
                 model: Module,
+                populate: {
+                    path: "lessonIds",
+                    model: Lesson,
+                },
             })
             .lean();
 
