@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { createContext, forwardRef, useCallback, useContext, useEffect } from "react";
+import React, { createContext, forwardRef, useCallback, useContext, useEffect } from "react";
 
 const CarouselContext = createContext(null);
 

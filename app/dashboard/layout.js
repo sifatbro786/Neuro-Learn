@@ -1,6 +1,7 @@
 import { SessionProvider } from "next-auth/react";
 import { Navbar } from "./_components/navbar";
 import Sidebar from "./_components/sidebar";
+import QuizProvider from "@/providers/QuizProvider";
 
 export default function DashboardLayout({ children }) {
     return (
@@ -13,7 +14,9 @@ export default function DashboardLayout({ children }) {
             <div className="hidden lg:flex h-full w-56 flex-col fixed inset-y-0 z-50">
                 <Sidebar />
             </div>
-            <main className="lg:pl-56 pt-[80px] h-full">{children}</main>
+            <main className="lg:pl-56 pt-[80px] h-full">
+                <QuizProvider>{children}</QuizProvider>
+            </main>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart } from "lucide-react";
+import { BarChart, CopyPlus } from "lucide-react";
 import { BookOpen } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 import { BookA } from "lucide-react";
@@ -17,7 +17,7 @@ const routes = [
         href: "/dashboard/courses",
     },
     {
-        icon: BookOpen,
+        icon: CopyPlus,
         label: "Add Course",
         href: "/dashboard/courses/add",
     },
@@ -30,9 +30,7 @@ const routes = [
 
 export const SidebarRoutes = () => {
     // const pathname = usePathname();
-
     // const isTeacherPage = pathname?.includes("/teacher");
-
     // const routes = isTeacherPage ? teacherRoutes : guestRoutes;
 
     return (

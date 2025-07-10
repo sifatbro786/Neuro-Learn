@@ -15,10 +15,6 @@ const navLinks = [
         title: "Blog",
         href: "/blog",
     },
-    {
-        title: "Documentation",
-        href: "/docs",
-    },
 ];
 
 export default async function MainLayout({ children }) {
