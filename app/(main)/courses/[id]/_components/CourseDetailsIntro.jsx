@@ -6,12 +6,9 @@ import { hasEnrollmentForCourse } from "@/queries/enrollments";
 import { getUserByEmail } from "@/queries/users";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default async function CourseDetailsIntro({ course }) {
     const session = await auth();
-    if (!session?.user) redirect("/login");
-
     const loggedInUser = await getUserByEmail(session?.user?.email);
     const hasEnrollment = await hasEnrollmentForCourse(course?.id, loggedInUser?.id);
 
@@ -34,9 +31,11 @@ export default async function CourseDetailsIntro({ course }) {
                             <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
                                 {hasEnrollment ? (
                                     <Link
-                                        href=""
+                                        href={`/courses/${course?.id}/lesson`}
                                         className={cn(buttonVariants({ size: "lg" }))}
-                                    >Access Course</Link>
+                                    >
+                                        Access Course
+                                    </Link>
                                 ) : (
                                     <EnrollCourse courseId={course?.id} />
                                 )}

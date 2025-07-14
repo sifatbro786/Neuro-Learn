@@ -3,6 +3,7 @@ import EnrollCourseCard from "../../component/enroll-courseCard";
 import { redirect } from "next/navigation";
 import { getUserByEmail } from "@/queries/users";
 import { getEnrollmentsForUser } from "@/queries/enrollments";
+import Link from "next/link";
 
 async function EnrolledCourses() {
     const session = await auth();
@@ -15,7 +16,12 @@ async function EnrolledCourses() {
         <div className="grid sm:grid-cols-2 gap-6">
             {enrollments && enrollments.length > 0 ? (
                 enrollments.map((enrollment) => (
-                    <EnrollCourseCard key={enrollment?.id} enrollment={enrollment} />
+                    <Link
+                        key={enrollment?.id}
+                        href={`/courses/${enrollment?.course?._id.toString()}/lesson`}
+                    >
+                        <EnrollCourseCard enrollment={enrollment} />
+                    </Link>
                 ))
             ) : (
                 <p className="text-3xl text-center">No Enrollments Found!</p>
