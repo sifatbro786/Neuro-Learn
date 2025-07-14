@@ -1,3 +1,5 @@
+"use client";
+
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -15,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { createReview } from "@/actions/testimonial";
 
 const formSchema = z.object({
     rating: z.coerce
@@ -30,7 +33,7 @@ const formSchema = z.object({
     }),
 });
 
-export const ReviewModal = ({ open, setOpen }) => {
+export const ReviewModal = ({ open, setOpen, courseId, userId }) => {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -39,20 +42,27 @@ export const ReviewModal = ({ open, setOpen }) => {
         },
     });
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting } = form.formState;
 
     const onSubmit = async (values) => {
         try {
+            const reviewData = {
+                courseId,
+                user: userId,
+                rating: values.rating,
+                content: values.review,
+            };
+
+            await createReview(reviewData);
+
             toast.success("Review added");
             setOpen(false);
         } catch (error) {
             toast.error("Something went wrong");
         }
-        // console.log(values);
     };
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            {/* <DialogTrigger>Open</DialogTrigger> */}
             <DialogContent
                 className="overflow-y-auto max-h-[90vh]"
                 onInteractOutside={(e) => {
@@ -61,13 +71,13 @@ export const ReviewModal = ({ open, setOpen }) => {
             >
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-8">
-                        {/* rating */}
+                        {/* //? rating */}
                         <FormField
                             control={form.control}
                             name="rating"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Course Title</FormLabel>
+                                    <FormLabel>Course Ranking</FormLabel>
                                     <FormControl>
                                         <Input
                                             disabled={isSubmitting}
@@ -82,7 +92,7 @@ export const ReviewModal = ({ open, setOpen }) => {
                                 </FormItem>
                             )}
                         />
-                        {/* review */}
+                        {/* //? review */}
                         <FormField
                             control={form.control}
                             name="review"

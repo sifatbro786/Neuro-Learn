@@ -3,7 +3,7 @@ import { GiveReview } from "./give-review";
 import { DownloadCertificate } from "./download-certificate";
 import { SidebarModules } from "./sidebar-modules";
 
-export const CourseSidebar = () => {
+export const CourseSidebar = ({ courseId, userId }) => {
     return (
         <>
             <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
@@ -18,7 +18,7 @@ export const CourseSidebar = () => {
 
                 <div className="w-full px-6">
                     <DownloadCertificate />
-                    <GiveReview />
+                    <GiveReview courseId={courseId} userId={userId} />
                 </div>
             </div>
         </>

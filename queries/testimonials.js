@@ -9,3 +9,12 @@ export async function getTestimonialsForCourse(courseId) {
         throw new Error(err);
     }
 }
+
+export async function create(reviewData) {
+    try {
+        const review = await Testimonial.create(reviewData);
+        return JSON.parse(JSON.stringify(review));
+    } catch (err) {
+        throw new Error(err);
+    }
+}

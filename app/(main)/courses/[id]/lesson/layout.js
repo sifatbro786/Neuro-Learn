@@ -10,7 +10,7 @@ const CourseLayout = async ({ children, params: { id } }) => {
 
     const isEnrolled = await hasEnrollmentForCourse(id, loggedInUser?.id);
     if (!isEnrolled) {
-        redirect(`/courses/${id}`);
+        redirect(`/courses`);
     }
 
     return (
@@ -24,7 +24,7 @@ const CourseLayout = async ({ children, params: { id } }) => {
             <div className="grid grid-cols-1 lg:grid-cols-12">
                 <div className="hidden lg:flex h-full w-96 flex-col inset-y-0 z-10">
                     {/* //? sidebar starts */}
-                    <CourseSidebar courseId={id} />
+                    <CourseSidebar courseId={id} userId={loggedInUser?.id} />
                 </div>
                 <main className="lg:pl-96 pt-[80px] lg:pt-[20px] h-full col-span-10 px-4">
                     {children}
