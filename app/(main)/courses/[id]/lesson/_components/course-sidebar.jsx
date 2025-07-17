@@ -2,8 +2,36 @@ import { CourseProgress } from "@/components/course-progress";
 import { GiveReview } from "./give-review";
 import { DownloadCertificate } from "./download-certificate";
 import { SidebarModules } from "./sidebar-modules";
+import { getCourseDetails } from "@/queries/courses";
+import { Watch } from "@/model/watch-model";
 
-export const CourseSidebar = ({ courseId, userId }) => {
+export const CourseSidebar = async ({ courseId, userId }) => {
+    const course = await getCourseDetails(courseId);
+
+    const updatedModules = await Promise.all(
+        course.modules.map(async (moduleData) => {
+            const moduleId = moduleData._id.toString();
+            const lessons = moduleData.lessonIds;
+
+            await Promise.all(
+                lessons.map(async (lesson) => {
+                    const lessonId = lesson._id.toString();
+                    const watch = await Watch.findOne({
+                        lesson: lessonId,
+                        module: moduleId,
+                        user: userId,
+                    }).lean();
+
+                    if (watch?.state === "completed") {
+                        lesson.state = "completed";
+                    }
+                    return lesson;
+                }),
+            );
+            return moduleData;
+        }),
+    );
+
     return (
         <>
             <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
@@ -14,10 +42,10 @@ export const CourseSidebar = ({ courseId, userId }) => {
                     </div>
                 </div>
 
-                <SidebarModules />
+                <SidebarModules courseId={courseId} modules={updatedModules} />
 
                 <div className="w-full px-6">
-                    <DownloadCertificate />
+                    <DownloadCertificate courseId={courseId} />
                     <GiveReview courseId={courseId} userId={userId} />
                 </div>
             </div>
