@@ -21,3 +21,12 @@ export async function getModule(moduleId) {
         throw new Error(err);
     }
 }
+
+export async function getModuleBySlug(moduleSlug) {
+    try {
+        const moduleData = await Module.findOne({ slug: moduleSlug }).lean();
+        return replaceMongoIdInObject(moduleData);
+    } catch (err) {
+        throw new Error(err);
+    }
+}
