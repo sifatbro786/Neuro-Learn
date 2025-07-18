@@ -41,12 +41,6 @@ export default async function HomePage() {
                         <Link href="/courses" className={cn(buttonVariants({ size: "lg" }))}>
                             Explore Now
                         </Link>
-                        <Link
-                            href="/register/instructor"
-                            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-                        >
-                            Become An Instructor
-                        </Link>
                     </div>
                 </div>
             </section>

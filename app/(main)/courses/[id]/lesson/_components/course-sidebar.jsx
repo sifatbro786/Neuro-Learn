@@ -4,6 +4,7 @@ import { DownloadCertificate } from "./download-certificate";
 import { SidebarModules } from "./sidebar-modules";
 import { getCourseDetails } from "@/queries/courses";
 import { Watch } from "@/model/watch-model";
+import { getAReport } from "@/queries/reports";
 
 export const CourseSidebar = async ({ courseId, userId }) => {
     const course = await getCourseDetails(courseId);
@@ -32,13 +33,23 @@ export const CourseSidebar = async ({ courseId, userId }) => {
         }),
     );
 
+    //? report data for progress-bar:
+    const report = await getAReport({ course: courseId, student: userId });
+
+    const totalCompletedModules = report?.totalCompletedModules
+        ? report?.totalCompletedModules?.length
+        : 0;
+    const totalModules = course?.modules ? course?.modules?.length : 0;
+
+    const totalProgress = totalModules > 0 ? (totalCompletedModules / totalModules) * 100 : 0;
+
     return (
         <>
             <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
                 <div className="p-8 flex flex-col border-b">
                     <h1 className="font-semibold">Reactive Accelerator</h1>
                     <div className="mt-10">
-                        <CourseProgress variant="success" value={80} />
+                        <CourseProgress variant="success" value={totalProgress} />
                     </div>
                 </div>
 

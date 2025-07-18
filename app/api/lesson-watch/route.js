@@ -3,12 +3,21 @@ import { getLoggedInUser } from "@/lib/loggedin-user";
 import { getLesson } from "@/queries/lessons";
 import { getModuleBySlug } from "@/queries/modules";
 import { Watch } from "@/model/watch-model";
+import { createWatchReport } from "@/queries/reports";
 
 const STARTED = "started";
 const COMPLETED = "completed";
 
+export async function updateReport(userId, courseId, moduleId, lessonId) {
+    try {
+        await createWatchReport({ userId, courseId, moduleId, lessonId });
+    } catch (err) {
+        throw new Error(err);
+    }
+}
+
 export async function POST(request) {
-    const { lessonId, moduleSlug, state, lastTime } = await request.json();
+    const { courseId, lessonId, moduleSlug, state, lastTime } = await request.json();
 
     const lesson = await getLesson(lessonId);
     const loggedInUser = await getLoggedInUser();
@@ -51,6 +60,8 @@ export async function POST(request) {
             if (!found) {
                 watchEntry["created_at"] = Date.now();
                 await Watch.create(watchEntry);
+
+                await updateReport(loggedInUser.id, courseId, moduleInfo.id, lessonId);
             }
         } else if (state === COMPLETED) {
             if (!found) {
@@ -62,6 +73,8 @@ export async function POST(request) {
                     await Watch.findByIdAndUpdate(found._id, {
                         state: COMPLETED,
                     });
+
+                    await updateReport(loggedInUser.id, courseId, moduleInfo.id, lessonId);
                 }
             }
         }
