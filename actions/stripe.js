@@ -4,6 +4,8 @@ import { headers } from "next/headers";
 import { formatAmountForStripe } from "@/lib/stripe-helpers";
 import { stripe } from "@/lib/stripe";
 import { getCourseDetails } from "@/queries/courses";
+import { getLoggedInUser } from "@/lib/loggedin-user";
+import { redirect } from "next/navigation";
 
 const CURRENCY = "BDT";
 
@@ -11,6 +13,9 @@ export async function createCheckoutSession(data) {
     const ui_mode = "hosted";
     const origin = headers().get("origin");
     const courseId = data.get("courseId");
+
+    const user = await getLoggedInUser();
+    if (!user) redirect("/login");
 
     const course = await getCourseDetails(courseId);
     if (!course) return new Error("Course not found!");
@@ -48,7 +53,7 @@ export async function createCheckoutSession(data) {
     };
 }
 
-export async function createPaymentIntent(data) {
+export async function createPaymentIntent() {
     const paymentIntent = await stripe.paymentIntents.create({
         amount: formatAmountForStripe(coursePrice, CURRENCY),
         automatic_payment_methods: { enabled: true },

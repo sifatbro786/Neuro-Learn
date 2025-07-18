@@ -4,6 +4,7 @@ import { getLesson } from "@/queries/lessons";
 import { getModuleBySlug } from "@/queries/modules";
 import { Watch } from "@/model/watch-model";
 import { createWatchReport } from "@/queries/reports";
+import { dbConnect } from "@/service/mongo";
 
 const STARTED = "started";
 const COMPLETED = "completed";
@@ -18,6 +19,8 @@ export async function updateReport(userId, courseId, moduleId, lessonId) {
 
 export async function POST(request) {
     const { courseId, lessonId, moduleSlug, state, lastTime } = await request.json();
+
+    await dbConnect();
 
     const lesson = await getLesson(lessonId);
     const loggedInUser = await getLoggedInUser();

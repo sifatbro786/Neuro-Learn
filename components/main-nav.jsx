@@ -48,10 +48,11 @@ export function MainNav({ items, children }) {
 
     return (
         <>
-            <div className="flex gap-6 lg:gap-10">
+            <div className="flex gap-6 lg:gap-10 w-full">
                 <Logo />
+
                 {items?.length ? (
-                    <nav className="hidden gap-6 lg:flex">
+                    <nav className="hidden lg:flex flex-1 justify-center gap-6">
                         {items?.map((item, index) => (
                             <Link
                                 key={index}

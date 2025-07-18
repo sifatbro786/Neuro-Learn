@@ -24,7 +24,7 @@ export function LoginForm() {
                 toast.error(response?.error);
             } else {
                 toast.success("Sign-in successfully");
-                router.push("/courses");
+                router.push("/");
             }
         } catch (err) {
             console.error(err);
