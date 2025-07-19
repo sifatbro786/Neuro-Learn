@@ -6,10 +6,14 @@ import { stripe } from "@/lib/stripe";
 import { getCourseDetails } from "@/queries/courses";
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { redirect } from "next/navigation";
+import { dbConnect } from "@/service/mongo";
 
 const CURRENCY = "BDT";
 
 export async function createCheckoutSession(data) {
+    await dbConnect();
+
+
     const ui_mode = "hosted";
     const origin = headers().get("origin");
     const courseId = data.get("courseId");
@@ -54,6 +58,8 @@ export async function createCheckoutSession(data) {
 }
 
 export async function createPaymentIntent() {
+    await dbConnect();
+
     const paymentIntent = await stripe.paymentIntents.create({
         amount: formatAmountForStripe(coursePrice, CURRENCY),
         automatic_payment_methods: { enabled: true },

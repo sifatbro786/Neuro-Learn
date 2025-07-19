@@ -3,9 +3,12 @@
 import { Lesson } from "@/model/lesson-model";
 import { Module } from "@/model/module-model";
 import { create } from "@/queries/lessons";
+import { dbConnect } from "@/service/mongo";
 import mongoose from "mongoose";
 
 export async function createLesson(data) {
+    await dbConnect();
+
     try {
         const title = data.get("title");
         const slug = data.get("slug");
@@ -25,6 +28,8 @@ export async function createLesson(data) {
 }
 
 export async function reOrderLesson(data) {
+    await dbConnect();
+
     try {
         await Promise.all(
             data.map(async (element) => {
@@ -37,6 +42,8 @@ export async function reOrderLesson(data) {
 }
 
 export async function updateLesson(lessonId, data) {
+    await dbConnect();
+
     try {
         await Lesson.findByIdAndUpdate(lessonId, data);
     } catch (err) {
@@ -45,6 +52,8 @@ export async function updateLesson(lessonId, data) {
 }
 
 export async function changeLessonPublishState(lessonId) {
+    await dbConnect();
+
     try {
         const lesson = await Lesson.findById(lessonId);
         const res = await Lesson.findByIdAndUpdate(
@@ -60,6 +69,8 @@ export async function changeLessonPublishState(lessonId) {
 }
 
 export async function deleteLesson(lessonId, moduleId) {
+    await dbConnect();
+
     try {
         const moduleData = await Module.findById(moduleId);
         moduleData.lessonIds.pull(new mongoose.Types.ObjectId(lessonId));

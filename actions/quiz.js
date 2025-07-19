@@ -4,9 +4,12 @@ import { getSlug } from "@/lib/convertData";
 import { Quizset } from "@/model/quizset-model";
 import { Quiz } from "@/model/quizzes-model";
 import { createQuiz } from "@/queries/quizzes";
+import { dbConnect } from "@/service/mongo";
 import mongoose from "mongoose";
 
 export async function updateQuizSet(quizSetId, dataToUpdate) {
+    await dbConnect();
+
     try {
         await Quizset.findByIdAndUpdate(quizSetId, dataToUpdate);
     } catch (err) {
@@ -15,6 +18,8 @@ export async function updateQuizSet(quizSetId, dataToUpdate) {
 }
 
 export async function deleteQuizSet(quizSetId) {
+    await dbConnect();
+
     try {
         await Quizset.findByIdAndDelete(quizSetId);
     } catch (err) {
@@ -23,6 +28,8 @@ export async function deleteQuizSet(quizSetId) {
 }
 
 export async function doCreateQuizSet(data) {
+    await dbConnect();
+
     try {
         data["slug"] = getSlug(data.title);
 
@@ -34,6 +41,8 @@ export async function doCreateQuizSet(data) {
 }
 
 export async function addQuizToQuizSet(quizSetId, quizData) {
+    await dbConnect();
+
     try {
         const transformedData = {};
 
@@ -70,6 +79,8 @@ export async function addQuizToQuizSet(quizSetId, quizData) {
 }
 
 export async function updateQuiz(quizId, quizData) {
+    await dbConnect();
+
     try {
         const transformedData = {};
 
@@ -102,6 +113,8 @@ export async function updateQuiz(quizId, quizData) {
 }
 
 export async function deleteQuiz(quizId, quizSetId) {
+    await dbConnect();
+
     try {
         const quizSet = await Quizset.findById(quizSetId);
         quizSet.quizIds.pull(new mongoose.Types.ObjectId(quizId));
@@ -114,6 +127,8 @@ export async function deleteQuiz(quizId, quizSetId) {
 }
 
 export async function changeQuizSetPublishState(quizSetId) {
+    await dbConnect();
+
     try {
         const quizSet = await Quizset.findById(quizSetId);
         const res = await Quizset.findByIdAndUpdate(

@@ -1,7 +1,10 @@
 import { Lesson } from "@/model/lesson-model";
 import { replaceMongoIdInObject } from "@/lib/convertData";
+import { dbConnect } from "@/service/mongo";
 
 export async function getLesson(lessonId) {
+    await dbConnect();
+
     try {
         const lesson = await Lesson.findById(lessonId).lean();
         return replaceMongoIdInObject(lesson);
@@ -11,6 +14,8 @@ export async function getLesson(lessonId) {
 }
 
 export async function create(lessonData) {
+    await dbConnect();
+
     try {
         const lesson = await Lesson.create(lessonData);
         return JSON.parse(JSON.stringify(lesson));
@@ -20,6 +25,8 @@ export async function create(lessonData) {
 }
 
 export async function getLessonBySlug(slug) {
+    await dbConnect();
+
     try {
         const lesson = await Lesson.findOne({ slug: slug }).lean();
         return replaceMongoIdInObject(lesson);

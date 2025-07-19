@@ -4,8 +4,11 @@ import { User } from "@/model/user-model";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { validatePassword } from "@/queries/users";
+import { dbConnect } from "@/service/mongo";
 
 export async function updateUserInfo(email, updatedData) {
+    await dbConnect();
+
     try {
         const filter = { email: email };
 
@@ -17,6 +20,8 @@ export async function updateUserInfo(email, updatedData) {
 }
 
 export async function changePassword(email, oldPassword, newPassword) {
+    await dbConnect();
+
     const isMatch = await validatePassword(email, oldPassword);
     if (!isMatch) throw new Error("Please enter a valid current password");
 
@@ -35,6 +40,8 @@ export async function changePassword(email, oldPassword, newPassword) {
 }
 
 export async function updateUserContact(email, updatedContact) {
+    await dbConnect();
+
     try {
         const filter = { email: email };
 

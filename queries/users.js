@@ -1,8 +1,11 @@
 import { replaceMongoIdInObject } from "@/lib/convertData";
 import { User } from "@/model/user-model";
+import { dbConnect } from "@/service/mongo";
 import bcrypt from "bcryptjs";
 
 export async function getUserByEmail(email) {
+    await dbConnect();
+
     try {
         const user = await User.findOne({ email: email }).select("-password").lean();
         return replaceMongoIdInObject(user);
@@ -12,6 +15,8 @@ export async function getUserByEmail(email) {
 }
 
 export async function getUserDetails(userId) {
+    await dbConnect();
+
     try {
         const user = await User.findById(userId).select("-password").lean();
         return replaceMongoIdInObject(user);
@@ -21,6 +26,8 @@ export async function getUserDetails(userId) {
 }
 
 export async function validatePassword(email, password) {
+    await dbConnect();
+
     try {
         const user = await getUserByEmail(email);
         const isMatch = await bcrypt.compare(password, user?.password);

@@ -4,8 +4,11 @@ import { Module } from "@/model/module-model";
 import { Report } from "@/model/report-model";
 import mongoose from "mongoose";
 import { getCourseDetails } from "./courses";
+import { dbConnect } from "@/service/mongo";
 
 export async function getAReport(filter) {
+    await dbConnect();
+
     try {
         const report = await Report.findOne(filter)
             .populate({
@@ -21,6 +24,8 @@ export async function getAReport(filter) {
 }
 
 export async function createWatchReport(data) {
+    await dbConnect();
+
     try {
         let report = await Report.findOne({ course: data.courseId, student: data.userId });
         if (!report) {
