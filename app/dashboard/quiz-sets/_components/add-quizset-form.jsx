@@ -62,7 +62,7 @@ export default function AddQuizSetForm() {
                                     <FormControl>
                                         <Input
                                             disabled={isSubmitting}
-                                            placeholder="e.g 'Reactive Accelerator'"
+                                            placeholder="Your quiz set title"
                                             {...field}
                                         />
                                     </FormControl>

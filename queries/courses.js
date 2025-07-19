@@ -8,6 +8,8 @@ import { getTestimonialsForCourse } from "./testimonials";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { dbConnect } from "@/service/mongo";
 import { Lesson } from "@/model/lesson-model";
+import { Quizset } from "@/model/quizset-model";
+import { Quiz } from "@/model/quizzes-model";
 
 export async function getCoursesList() {
     await dbConnect();
@@ -74,6 +76,14 @@ export async function getCourseDetails(id) {
                 populate: {
                     path: "lessonIds",
                     model: Lesson,
+                },
+            })
+            .populate({
+                path: "quizSet",
+                model: Quizset,
+                populate: {
+                    path: "quizIds",
+                    model: Quiz,
                 },
             })
             .lean();
@@ -161,7 +171,7 @@ export async function getCourseDetailsByInstructor(instructorId, expand) {
 
 export async function create(courseData) {
     await dbConnect();
-    
+
     try {
         const course = await Course.create(courseData);
         return JSON.parse(JSON.stringify(course));

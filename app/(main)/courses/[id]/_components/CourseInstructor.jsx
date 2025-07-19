@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { getCourseDetailsByInstructor } from "@/queries/courses";
 import { Presentation, UsersRound, Star, MessageSquare } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 export default async function CourseInstructor({ course }) {
     const instructor = course?.instructor;
@@ -54,9 +52,6 @@ export default async function CourseInstructor({ course }) {
                 </div>
             </div>
             <p className="text-gray-600 mb-6">{instructor?.bio}</p>
-            <Link href={`/inst-profile/${instructor?._id}`}>
-                <Button>See Profile</Button>
-            </Link>
         </div>
     );
 }

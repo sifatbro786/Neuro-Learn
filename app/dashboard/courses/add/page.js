@@ -66,7 +66,7 @@ const AddCourse = () => {
                                     <FormControl>
                                         <Input
                                             disabled={isSubmitting}
-                                            placeholder="e.g 'Reactive Accelerator'"
+                                            placeholder="Your course title"
                                             {...field}
                                         />
                                     </FormControl>

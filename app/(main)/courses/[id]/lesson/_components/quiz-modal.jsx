@@ -1,23 +1,28 @@
-import { Badge } from "@/components/ui/badge";
+"use client";
+
+import { addQuizAssessment } from "@/actions/quiz";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
-function QuizModal({ quizes }) {
-    const [open, setOpen] = useState(false);
-    const totalQuizes = quizes?.length;
+function QuizModal({ courseId, quizSetId, quizzes, open, setOpen, isTaken }) {
     const [quizIndex, setQuizIndex] = useState(0);
-    const lastQuizIndex = totalQuizes - 1;
-    const currentQuiz = quizes[quizIndex];
+    const [answers, setAnswers] = useState([]);
+    const router = useRouter();
 
-    // change quiz
-    const quizChangeHanlder = (type) => {
+    const totalQuizzes = quizzes?.length;
+    const lastQuizIndex = totalQuizzes - 1;
+    const currentQuiz = quizzes[quizIndex];
+
+    //? change quiz
+    const quizChangeHandler = (type) => {
         const nextQuizIndex = quizIndex + 1;
         const prevQuizIndex = quizIndex - 1;
         if (type === "next" && nextQuizIndex <= lastQuizIndex) {
-            // console.log("next");
             return setQuizIndex((prev) => prev + 1);
         }
         if (type === "prev" && prevQuizIndex >= 0) {
@@ -25,48 +30,52 @@ function QuizModal({ quizes }) {
         }
     };
 
+    const updateAnswer = (event, quizId, quizTitle, selected) => {
+        const key = event.target.name;
+        const checked = event.target.checked;
+
+        const obj = {};
+        if (!checked) {
+            obj["options"] = selected;
+        }
+
+        const answer = {
+            quizId: quizId,
+            options: [obj],
+        };
+
+        const found = answers.find((a) => a.quizId === answer.quizId);
+        if (found) {
+            const filtered = answers.filter((a) => a.quizId !== answer.quizId);
+            setAnswers([...filtered, answer]);
+        } else {
+            setAnswers([...answers, answer]);
+        }
+    };
+
+    const handleSubmitQuiz = async (e) => {
+        e.preventDefault();
+
+        try {
+            await addQuizAssessment(courseId, quizSetId, answers);
+
+            setOpen(false);
+            router.refresh();
+            toast.success("Thanks for submitting the quiz.");
+        } catch (err) {
+            console.error(err);
+            toast.error(err.message);
+        }
+    };
+
     return (
         <>
-            <div class="max-w-[270px] bg-white border border-border rounded-md dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
-                <div className="flex h-32 items-center justify-center bg-gradient-to-r from-sky-500 to-indigo-500 px-6 text-center">
-                    <span className="text-lg font-semibold text-white">
-                        Reactive Accelerator: Quiz Set 4.16 : Module 4 Lesson 16 Quiz Set
-                    </span>
-                </div>
-                <div class="p-4">
-                    <div className="flex items-center justify-between gap-6 text-sm mb-2 font-medium text-gray-700">
-                        <span>Total Mark</span>
-                        <Badge className="bg-success/20 text-primary hover:bg-success/20">10</Badge>
-                    </div>
-                    <p class="mb-4 font-normal text-gray-500 dark:text-gray-400 text-sm">
-                        Reactive Accelerator: Quiz Set of Module 4 Lesson 16: Lesson 16
-                    </p>
-                    <Button
-                        className="flex gap-2 capitalize border-sky-500 text-sky-500 hover:text-sky-500 hover:bg-sky-500/5 w-full"
-                        variant="outline"
-                        onClick={() => setOpen(true)}
-                    >
-                        <svg
-                            stroke="currentColor"
-                            fill="currentColor"
-                            stroke-width="0"
-                            viewBox="0 0 24 24"
-                            class="h-4 w-4"
-                            height="1em"
-                            width="1em"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path fill="none" d="M0 0h24v24H0V0z"></path>
-                            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zm-6.49-5.84c.41-.73 1.18-1.16 1.63-1.8.48-.68.21-1.94-1.14-1.94-.88 0-1.32.67-1.5 1.23l-1.37-.57C11.51 5.96 12.52 5 13.99 5c1.23 0 2.08.56 2.51 1.26.37.6.58 1.73.01 2.57-.63.93-1.23 1.21-1.56 1.81-.13.24-.18.4-.18 1.18h-1.52c.01-.41-.06-1.08.26-1.66zm-.56 3.79c0-.59.47-1.04 1.05-1.04.59 0 1.04.45 1.04 1.04 0 .58-.44 1.05-1.04 1.05-.58 0-1.05-.47-1.05-1.05z"></path>
-                        </svg>
-                        <span>Participate a Quiz</span>
-                    </Button>
-                </div>
-            </div>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent className="sm:max-w-[95%] block">
                     <div className="pb-4 border-b border-border text-sm">
-                        <span className="text-success inline-block mr-1">{quizIndex + 1} / 2</span>{" "}
+                        <span className="text-success inline-block mr-1">
+                            {quizIndex + 1} / {quizzes?.length}
+                        </span>{" "}
                         টি প্রশ্ন
                     </div>
                     <div className="py-4">
@@ -104,21 +113,29 @@ function QuizModal({ quizes }) {
                                 <path d="M10 12h-4v-1h1v-3h-1v-1h3v4h1z"></path>
                                 <path d="M8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zM8 14.5c-3.59 0-6.5-2.91-6.5-6.5s2.91-6.5 6.5-6.5 6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z"></path>
                             </svg>{" "}
-                            একটি প্রশ্নের একাধিক উত্তর হতে পারে & ভুল সিলেকশনে কোন নেগেটিভ মার্কিং
-                            নেই
+                            There is no negative marking.
                         </span>
                     </div>
                     <div className="grid md:grid-cols-2 gap-5 mb-6">
                         {currentQuiz?.options.map((option) => (
-                            <div key={option.id}>
+                            <div key={option?.label}>
                                 <input
-                                    className="opacity-0 invisible absolute [&:checked_+_label]:bg-success/5"
-                                    type="checkbox"
-                                    id={`option-${option.id}`}
+                                    className="opacity-0 invisible absolute [&:checked_+_label]:bg-success/60"
+                                    type="radio"
+                                    name="answer"
+                                    id={`option-${option?.label}`}
+                                    onChange={(e) =>
+                                        updateAnswer(
+                                            e,
+                                            quizzes[quizIndex].id,
+                                            quizzes[quizIndex].title,
+                                            option?.label,
+                                        )
+                                    }
                                 />
                                 <Label
                                     className="border border-border rounded px-2 py-3 block cursor-pointer hover:bg-gray-50 transition-all font-normal"
-                                    htmlFor={`option-${option.id}`}
+                                    htmlFor={`option-${option?.label}`}
                                 >
                                     {option.label}
                                 </Label>
@@ -129,14 +146,24 @@ function QuizModal({ quizes }) {
                         <Button
                             className="gap-2 rounded-3xl"
                             disabled={quizIndex === 0}
-                            onClick={() => quizChangeHanlder("prev")}
+                            onClick={() => quizChangeHandler("prev")}
                         >
                             <ArrowLeft /> Previous Quiz
                         </Button>
+
+                        <Button
+                            disabled={isTaken}
+                            className="gap-2 rounded-xl"
+                            type="submit"
+                            onClick={handleSubmitQuiz}
+                        >
+                            Submit
+                        </Button>
+
                         <Button
                             className="gap-2 rounded-3xl"
                             disabled={quizIndex >= lastQuizIndex}
-                            onClick={() => quizChangeHanlder("next")}
+                            onClick={() => quizChangeHandler("next")}
                         >
                             Next Quiz <ArrowRight />
                         </Button>

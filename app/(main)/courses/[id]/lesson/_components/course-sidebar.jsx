@@ -5,6 +5,7 @@ import { SidebarModules } from "./sidebar-modules";
 import { getCourseDetails } from "@/queries/courses";
 import { Watch } from "@/model/watch-model";
 import { getAReport } from "@/queries/reports";
+import Quiz from "./quiz";
 
 export const CourseSidebar = async ({ courseId, userId }) => {
     const course = await getCourseDetails(courseId);
@@ -43,17 +44,28 @@ export const CourseSidebar = async ({ courseId, userId }) => {
 
     const totalProgress = totalModules > 0 ? (totalCompletedModules / totalModules) * 100 : 0;
 
+    //? quizSet data:
+    const quizSet = course?.quizSet;
+    const isQuizComplete = report?.quizAssessment ? true : false;
+
     return (
         <>
-            <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
+            <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm mb-10">
                 <div className="p-8 flex flex-col border-b">
-                    <h1 className="font-semibold">Reactive Accelerator</h1>
+                    <h1 className="font-semibold">{course?.title}</h1>
                     <div className="mt-10">
                         <CourseProgress variant="success" value={totalProgress} />
                     </div>
                 </div>
 
                 <SidebarModules courseId={courseId} modules={updatedModules} />
+
+                {/* //? Quiz */}
+                <div className="w-full px-4 lg:px-14 pt-10 border-t">
+                    {quizSet && (
+                        <Quiz courseId={courseId} quizSet={quizSet} isTaken={isQuizComplete} />
+                    )}
+                </div>
 
                 <div className="w-full px-6">
                     <DownloadCertificate course={course} totalProgress={totalProgress} />
