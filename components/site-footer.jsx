@@ -5,9 +5,9 @@ import Link from "next/link";
 
 export default function SiteFooter() {
     return (
-        <footer className="bg-[#111827] text-white px-6 py-12 md:px-[230px]">
+        <footer className="bg-slate-800 text-white px-6 py-12 md:px-[230px] border-t border-white/30">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-                {/* Contact Info */}
+                {/* //? Contact Info */}
                 <div>
                     <Logo />
                     <p className="text-sm leading-6 mt-4">
@@ -32,7 +32,7 @@ export default function SiteFooter() {
                     </div>
                 </div>
 
-                {/* Quick Links */}
+                {/* //? Quick Links */}
                 <div className="md:mx-auto">
                     <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
                     <ul className="space-y-2 text-sm">
@@ -59,7 +59,7 @@ export default function SiteFooter() {
                     </ul>
                 </div>
 
-                {/* Payment Info */}
+                {/* //? Payment Info */}
                 <div className="md:ml-auto">
                     <h3 className="text-xl font-semibold mb-4">Our Payment Merchant</h3>
                     <p className="text-sm font-medium text-teal-400 mb-4">+8801711310768</p>
@@ -72,7 +72,7 @@ export default function SiteFooter() {
                     />
                 </div>
 
-                {/* QR Code */}
+                {/* //? QR Code */}
                 <div className="md:ml-auto">
                     <h3 className="text-xl font-semibold mb-4">Scan to Pay</h3>
                     <Image
