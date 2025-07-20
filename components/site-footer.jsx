@@ -14,8 +14,8 @@ export default function SiteFooter() {
                         CNS Tower, 43/R/5-A, 4th Floor, West Panthapath, Dhaka-1205 (Beside Square
                         Hospital)
                     </p>
-                    <p className="mt-2 text-sm">📧 techlightclc@gmail.com</p>
-                    <p className="text-sm">📞 +8801886001973</p>
+                    <p className="mt-4 mb-1 text-sm">📧 techlightclc@gmail.com</p>
+                    <p className="text-sm mb-6">📞 +8801886001973</p>
                     <div className="flex space-x-4 mt-4">
                         <a href="#" className="hover:text-teal-400">
                             <Facebook size={22} />
@@ -56,13 +56,18 @@ export default function SiteFooter() {
                                 Contact Us
                             </Link>
                         </li>
+                        <li>
+                            <Link href="/clients" className="hover:text-teal-400">  
+                                Our Clients
+                            </Link>
+                        </li>
                     </ul>
                 </div>
 
                 {/* //? Payment Info */}
                 <div className="md:ml-auto">
                     <h3 className="text-xl font-semibold mb-4">Our Payment Merchant</h3>
-                    <p className="text-sm font-medium text-teal-400 mb-4">+8801711310768</p>
+                    <p className="text-sm font-medium text-yellow-500 mb-4">+8801711310768</p>
                     <Image
                         src="/accounts.webp"
                         alt="Payment Methods"
