@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
-export default function ActiveFilters({ filter }) {
+export default function ActiveFilters({ filter, applyArrayFilter }) {
     return (
         <div className="flex items-center gap-2 flex-wrap">
             {/* //* active categories */}

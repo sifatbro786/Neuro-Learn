@@ -9,7 +9,6 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Filter } from "lucide-react";
-import { useState } from "react";
 
 const PRICE_OPTIONS = [
     { label: "Free", value: "free" },
@@ -60,30 +59,7 @@ const CATEGORY_OPTIONS = [
     },
 ];
 
-export default function FilterCourseMobile() {
-    const [filter, setFilter] = useState({
-        categories: ["development"],
-        price: ["free"],
-        sort: "",
-    });
-
-    //! apply checkbox filter:
-    const applyArrayFilter = ({ type, value }) => {
-        const isFilterApplied = filter[type].includes(value);
-
-        if (isFilterApplied) {
-            setFilter((prev) => ({
-                ...prev,
-                [type]: prev[type].filter((v) => v !== value),
-            }));
-        } else {
-            setFilter((prev) => ({
-                ...prev,
-                [type]: [...prev[type], value],
-            }));
-        }
-    };
-
+export default function FilterCourseMobile({ filter, applyArrayFilter }) {
     return (
         <div className="lg:hidden">
             <Sheet>

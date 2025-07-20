@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Facebook, Youtube, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Youtube, Linkedin, Twitter, Mail, Phone } from "lucide-react";
 import { Logo } from "./logo";
 import Link from "next/link";
 
@@ -14,8 +14,12 @@ export default function SiteFooter() {
                         CNS Tower, 43/R/5-A, 4th Floor, West Panthapath, Dhaka-1205 (Beside Square
                         Hospital)
                     </p>
-                    <p className="mt-4 mb-1 text-sm">📧 techlightclc@gmail.com</p>
-                    <p className="text-sm mb-6">📞 +8801886001973</p>
+                    <p className="mt-4 mb-1 text-sm flex items-center gap-[6px]">
+                        <Mail className="w-[18px] h-[18px]" /> techlightclc@gmail.com
+                    </p>
+                    <p className="text-sm mb-6 flex items-center gap-1">
+                        <Phone className="w-4 h-4" /> +8801886001973
+                    </p>
                     <div className="flex space-x-4 mt-4">
                         <a href="#" className="hover:text-teal-400">
                             <Facebook size={22} />
@@ -57,7 +61,7 @@ export default function SiteFooter() {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/clients" className="hover:text-teal-400">  
+                            <Link href="/clients" className="hover:text-teal-400">
                                 Our Clients
                             </Link>
                         </li>

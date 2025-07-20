@@ -15,15 +15,15 @@ const SORT_OPTIONS = [
     { label: "Price: High to Low", value: "price-desc" },
 ];
 
-export default function SortCourse() {
+export default function SortCourse({ onSortChange }) {
     return (
-        <Select>
+        <Select onValueChange={onSortChange}>
             <SelectTrigger className="w-[180px] border-none !border-b focus:ring-0 focus:ring-offset-0 overflow-hidden">
                 <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
+                    <SelectLabel>Courses</SelectLabel>
                     {SORT_OPTIONS.map((option) => (
                         <SelectItem
                             className="cursor-pointer"

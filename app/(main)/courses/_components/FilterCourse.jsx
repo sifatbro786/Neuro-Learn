@@ -7,7 +7,6 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
 
 const PRICE_OPTIONS = [
     { label: "Free", value: "free" },
@@ -58,30 +57,7 @@ const CATEGORY_OPTIONS = [
     },
 ];
 
-export default function FilterCourse() {
-    const [filter, setFilter] = useState({
-        categories: ["development"],
-        price: ["free"],
-        sort: "",
-    });
-
-    //! apply checkbox filter:
-    const applyArrayFilter = ({ type, value }) => {
-        const isFilterApplied = filter[type].includes(value);
-
-        if (isFilterApplied) {
-            setFilter((prev) => ({
-                ...prev,
-                [type]: prev[type].filter((v) => v !== value),
-            }));
-        } else {
-            setFilter((prev) => ({
-                ...prev,
-                [type]: [...prev[type], value],
-            }));
-        }
-    };
-
+export default function FilterCourse({ filter, applyArrayFilter }) {
     return (
         <div className="hidden lg:block">
             <Accordion defaultValue={["categories"]} type="multiple">
