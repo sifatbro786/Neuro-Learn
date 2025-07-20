@@ -50,7 +50,7 @@ export const CourseSidebar = async ({ courseId, userId }) => {
 
     return (
         <>
-            <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm mb-10">
+            <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm my-14">
                 <div className="p-8 flex flex-col border-b">
                     <h1 className="font-semibold">{course?.title}</h1>
                     <div className="mt-10">

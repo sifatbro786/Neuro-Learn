@@ -19,8 +19,8 @@ const Course = async ({ params: { id }, searchParams: { name, moduleSlug } }) =>
     const defaultModule = moduleSlug ?? allModules[0]?.slug;
 
     return (
-        <div>
-            <div className="flex flex-col max-w-4xl mx-auto pb-20">
+        <>
+            <div className="flex flex-col max-w-4xl mx-auto my-14">
                 <div className="p-4 w-full">
                     <LessonVideo
                         courseId={id}
@@ -37,7 +37,7 @@ const Course = async ({ params: { id }, searchParams: { name, moduleSlug } }) =>
                     <VideoDescription description={lessonToPlay?.description} />
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 export default Course;

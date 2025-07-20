@@ -1,12 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 
 export function CategoryCard({ category }) {
     return (
-        <Link
-            href={`/categories/${category?.id}`}
-            className="relative overflow-hidden rounded-lg border bg-background p-2 hover:scale-105 transition-all duration-500 ease-in-out"
-        >
+        <div className="relative overflow-hidden rounded-lg border bg-background p-2 hover:scale-105 transition-all duration-500 ease-in-out">
             <div className="flex  flex-col gap-4 items-center justify-between rounded-md p-6">
                 <Image
                     src={`/assets/images/categories/${category?.thumbnail}`}
@@ -16,6 +12,6 @@ export function CategoryCard({ category }) {
                 />
                 <h3 className="font-bold">{category.title}</h3>
             </div>
-        </Link>
+        </div>
     );
 }

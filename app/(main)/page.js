@@ -46,16 +46,9 @@ export default async function HomePage() {
             </section>
 
             {/* //* Categories Section */}
-            <section id="categories" className="container space-y-6  py-8  md:py-12 lg:py-24">
+            <section className="container space-y-6  py-8  md:py-12 lg:py-24">
                 <div className="flex items-center justify-between">
                     <SectionTitle>Categories</SectionTitle>
-
-                    <Link
-                        href={"/categories"}
-                        className=" text-sm font-medium  hover:opacity-80 flex items-center gap-1"
-                    >
-                        Browse All <ArrowRightIcon className="h-4 w-4" />
-                    </Link>
                 </div>
                 <div className="mx-auto grid justify-center gap-4 grid-cols-2  md:grid-cols-3 2xl:grid-cols-4">
                     {categories.map((category) => {
@@ -65,7 +58,7 @@ export default async function HomePage() {
             </section>
 
             {/* //* Courses */}
-            <section className="container space-y-6 py-12 lg:py-24">
+            <section id="courses" className="container space-y-6 py-12 lg:py-24">
                 <div className="flex items-center justify-between">
                     <SectionTitle>Courses</SectionTitle>
                     <Link

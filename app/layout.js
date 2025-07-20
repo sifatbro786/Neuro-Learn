@@ -15,7 +15,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-    title: "NeuroLearn",
+    title: "Techlight - IT Institute",
     description: "Explore || Learn || Build || Share",
 };
 

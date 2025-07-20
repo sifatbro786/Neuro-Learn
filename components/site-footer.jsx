@@ -1,72 +1,98 @@
-import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { Facebook, Youtube, Linkedin, Twitter } from "lucide-react";
 import { Logo } from "./logo";
 import Link from "next/link";
 
-export function SiteFooter({ className }) {
+export default function SiteFooter() {
     return (
-        <footer className={cn(className)}>
-            <div className="container pt-6 md:pt-5 pb-6 mx-auto flex items-center md:flex-row flex-col border-t">
-                <Logo />
-                <p className="text-md text-center md:text-left md:ml-4 md:pl-4 md:border-l-2 md:border-gray-500 md:py-2 md:mt-0 mt-4 font-semibold">
-                    © {new Date().getFullYear()} Demo - All right reserved.
-                </p>
-                <span className="inline-flex md:ml-auto md:mt-0 mt-4 justify-center md:justify-start">
-                    <Link href="/" className="cursor-pointer">
-                        <svg
-                            fill="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            className="w-5 h-5"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-                        </svg>
-                    </Link>
-                    <Link href="/" className="ml-3 cursor-pointer">
-                        <svg
-                            fill="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            className="w-5 h-5"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-                        </svg>
-                    </Link>
-                    <Link href="/" className="ml-3 cursor-pointer">
-                        <svg
-                            fill="none"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            className="w-5 h-5"
-                            viewBox="0 0 24 24"
-                        >
-                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-                        </svg>
-                    </Link>
-                    <Link href="/" className="ml-3 cursor-pointer">
-                        <svg
-                            fill="currentColor"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="0"
-                            className="w-5 h-5"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke="none"
-                                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"
-                            ></path>
-                            <circle cx="4" cy="4" r="2" stroke="none"></circle>
-                        </svg>
-                    </Link>
-                </span>
+        <footer className="bg-[#111827] text-white px-6 py-12 md:px-[230px]">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+                {/* Contact Info */}
+                <div>
+                    <Logo />
+                    <p className="text-sm leading-6 mt-4">
+                        CNS Tower, 43/R/5-A, 4th Floor, West Panthapath, Dhaka-1205 (Beside Square
+                        Hospital)
+                    </p>
+                    <p className="mt-2 text-sm">📧 techlightclc@gmail.com</p>
+                    <p className="text-sm">📞 +8801886001973</p>
+                    <div className="flex space-x-4 mt-4">
+                        <a href="#" className="hover:text-teal-400">
+                            <Facebook size={22} />
+                        </a>
+                        <a href="#" className="hover:text-teal-400">
+                            <Youtube size={22} />
+                        </a>
+                        <a href="#" className="hover:text-teal-400">
+                            <Linkedin size={22} />
+                        </a>
+                        <a href="#" className="hover:text-teal-400">
+                            <Twitter size={22} />
+                        </a>
+                    </div>
+                </div>
+
+                {/* Quick Links */}
+                <div className="md:mx-auto">
+                    <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
+                    <ul className="space-y-2 text-sm">
+                        <li>
+                            <Link href="/" className="hover:text-teal-400">
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/about" className="hover:text-teal-400">
+                                About Us
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="#courses" className="hover:text-teal-400">
+                                Our Services
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/contact" className="hover:text-teal-400">
+                                Contact Us
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Payment Info */}
+                <div className="md:ml-auto">
+                    <h3 className="text-xl font-semibold mb-4">Our Payment Merchant</h3>
+                    <p className="text-sm font-medium text-teal-400 mb-4">+8801711310768</p>
+                    <Image
+                        src="/accounts.png"
+                        alt="Payment Methods"
+                        width={300}
+                        height={100}
+                        className="rounded-lg shadow-lg"
+                    />
+                </div>
+
+                {/* QR Code */}
+                <div className="md:ml-auto">
+                    <h3 className="text-xl font-semibold mb-4">Scan to Pay</h3>
+                    <Image
+                        src="/TechLight_Bar_Code.png"
+                        alt="QR Code"
+                        width={160}
+                        height={160}
+                        className="bg-white p-2 rounded-xl"
+                    />
+                    <p className="text-xs text-gray-300 mt-3">
+                        e-TIN: <span className="text-white font-bold">572113303278</span>
+                        <br />
+                        TRAD/DSCC/132971/2022
+                    </p>
+                </div>
+            </div>
+
+            <hr className="border-t border-gray-700 my-8" />
+            <div className="text-center text-sm text-gray-400">
+                © {new Date().getFullYear()} Techlight IT Institute. All rights reserved.
             </div>
         </footer>
     );
