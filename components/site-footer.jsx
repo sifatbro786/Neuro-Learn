@@ -64,7 +64,7 @@ export default function SiteFooter() {
                     <h3 className="text-xl font-semibold mb-4">Our Payment Merchant</h3>
                     <p className="text-sm font-medium text-teal-400 mb-4">+8801711310768</p>
                     <Image
-                        src="/accounts.png"
+                        src="/accounts.webp"
                         alt="Payment Methods"
                         width={300}
                         height={100}
