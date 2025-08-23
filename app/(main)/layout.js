@@ -13,6 +13,10 @@ const navLinks = [
         href: "/#courses",
     },
     {
+        title: "Solutions",
+        href: "/solutions",
+    },
+    {
         title: "About Us",
         href: "/about",
     },
@@ -21,8 +25,8 @@ const navLinks = [
         href: "/contact",
     },
     {
-        title: "Clients",
-        href: "/clients",
+        title: "blogs",
+        href: "/blogs",
     },
 ];
 
