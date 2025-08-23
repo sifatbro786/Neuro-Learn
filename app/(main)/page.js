@@ -8,6 +8,7 @@ import CourseCard from "./courses/_components/CourseCard"
 import { CategoryCard } from "@/components/category-card"
 import HeroSection from "@/components/home/HeroSection"
 import HowItWorks from "@/components/home/HowItWorks"
+import LearningPlatformComponent from "@/components/home/LearningPlatformComponent"
 
 export default async function HomePage() {
     const courses = await getCoursesList()
@@ -16,6 +17,7 @@ export default async function HomePage() {
     return (
         <>
             <HeroSection />
+
 
             {/* course category */}
             <section className="py-16 lg:py-24 bg-white dark:bg-gray-900">
@@ -33,6 +35,8 @@ export default async function HomePage() {
                     </div>
                 </div>
             </section>
+
+            <LearningPlatformComponent/>
 
             {/* favourite course */}
             <section id="courses" className="py-16 lg:py-24 bg-gray-50 dark:bg-gray-800">
