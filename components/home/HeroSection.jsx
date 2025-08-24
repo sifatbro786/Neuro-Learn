@@ -98,19 +98,19 @@ export default function HeroSection() {
           <div className="relative lg:block hidden">
             <div className="relative h-[650px] w-full">
               {/* Main large image - positioned left */}
-              <div className="absolute left-0 top-0 w-[280px] h-[420px] rounded-3xl overflow-hidden shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                <img src="/hero/newtork.jpg" alt="" />
+              <div className="absolute left-0 top-0 w-full h-full rounded-xl overflow-hidden transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                <img src="/hero/cscategory.png" alt="" />
               </div>
 
               {/* Top right image */}
-              <div className="absolute right-0 top-8 w-[240px] h-[200px] rounded-3xl overflow-hidden shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-500">
-                <img src="/hero/student.jpg" alt="" />
-              </div>
+              {/* <div className="absolute right-0 top-8 w-[240px] h-[200px] rounded-3xl overflow-hidden transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                <img src="/hero/msstack.png" alt="" />
+              </div> */}
 
               {/* Bottom right image */}
-              <div className="absolute right-4 bottom-16 w-[220px] h-[280px] rounded-3xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+              {/* <div className="absolute right-4 bottom-16 w-[220px] h-[280px] rounded-3xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
 <img src="/hero/dev.jpg" alt="" />
-              </div>
+              </div> */}
 
   
             </div>
