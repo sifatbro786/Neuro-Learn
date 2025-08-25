@@ -6,8 +6,8 @@ import "./contact.css";
 
 export default function ContactPage() {
     return (
-        <main className="min-h-screen bg-gradient-to-b from-black via-slate-900 to-slate-950 text-white py-16 px-4 sm:px-8">
-            <h1 className="text-5xl font-bold text-center mb-20 text-teal-400">
+        <main className="min-h-screen bg-white text-black py-16 px-4 sm:px-8">
+            <h1 className="text-5xl font-bold text-center mb-20 text-black">
                 Contact Techlight
             </h1>
 
@@ -21,22 +21,22 @@ export default function ContactPage() {
                 >
                     <div className="space-y-6">
                         <h2 className="text-4xl font-bold mb-2">Let&apos;s Connect</h2>
-                        <p className="text-lg text-gray-300 max-w-md">
+                        <p className="text-lg text-gray-900 max-w-md">
                             Have a question, partnership idea or just want to say hi? Reach out —
                             we’re here to help.
                         </p>
 
                         <div className="space-y-5 text-base">
                             <div className="flex items-center gap-4">
-                                <Mail className="text-teal-400" />
+                                <Mail className="text-black" />
                                 <span>info@techlight.com.bd</span>
                             </div>
                             <div className="flex items-center gap-4">
-                                <Phone className="text-teal-400" />
+                                <Phone className="text-black" />
                                 <span>+8801886001973</span>
                             </div>
                             <div className="flex items-start gap-4">
-                                <MapPin className="text-teal-400 mt-1" />
+                                <MapPin className="text-black mt-1" />
                                 <span>
                                     CNS Tower, 43/R/5-A,
                                     <br />
@@ -65,9 +65,9 @@ export default function ContactPage() {
                     initial={{ opacity: 0, x: 40 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="self-center space-y-6 bg-white/5 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-white/10 hover:border-teal-500 transition-all duration-500"
+                    className="self-center space-y-6 bg-white/5 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-red-500 hover:border-teal-500 transition-all duration-500"
                 >
-                    <h3 className="text-3xl font-semibold text-teal-400 mb-2">Send a Message</h3>
+                    <h3 className="text-3xl font-semibold text-black mb-2">Send a Message</h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <input

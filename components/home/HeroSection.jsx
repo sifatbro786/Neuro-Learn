@@ -43,7 +43,7 @@ export default function HeroSection() {
                     className="w-full h-14 pl-6 pr-4 text-base border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 bg-white shadow-sm"
                   />
                 </div>
-                <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 h-14 font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
+                <Button size="lg" className="bg-gradient-to-r from-red-500 to-red-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 h-14 font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
                   <Search className="w-5 h-5 mr-2" />
                   Search
                 </Button>

@@ -102,10 +102,10 @@ const LearningPlatformComponent = () => {
                 
                 {/* Call to Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
+                  <button className="bg-red-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
                     Start Learning
                   </button>
-                  <button className="border-2 border-slate-300 hover:border-slate-400 text-slate-700 hover:text-slate-800 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-slate-50">
+                  <button className="border-2 hover:bg-red-500 border-slate-300 hover:border-slate-400 text-slate-700  px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:text-white">
                     Browse Courses
                   </button>
                 </div>

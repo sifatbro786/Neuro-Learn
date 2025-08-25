@@ -1,199 +1,264 @@
-
 "use client";
-
 import React, { useState } from 'react';
-import { Calendar, User, Clock, ArrowRight, ArrowLeft, Heart, Share2, BookmarkPlus, Eye } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { FiCalendar, FiUser, FiArrowRight, FiSearch, FiTag, FiClock } from 'react-icons/fi';
+import Link from 'next/link';
 
-// Sample blog data
-const blogData = [
-  {
-    id: 1,
-    title: "The Future of Machine Learning in Education",
-    excerpt: "Discover how AI and ML are revolutionizing the way we learn and teach in the digital age.",
-    content: `
-      <p>Machine Learning (ML) is transforming education in unprecedented ways. From personalized learning paths to intelligent tutoring systems, AI is creating more effective and engaging educational experiences.</p>
-      
-      <h3>Personalized Learning Experiences</h3>
-      <p>One of the most significant impacts of ML in education is the ability to create personalized learning experiences. By analyzing student behavior, performance data, and learning patterns, AI can adapt content difficulty, suggest relevant resources, and identify areas where students need additional support.</p>
-      
-      <h3>Intelligent Assessment Systems</h3>
-      <p>Traditional assessment methods are being enhanced with ML algorithms that can provide instant feedback, detect learning gaps, and offer targeted recommendations. These systems can analyze not just the final answers but also the learning process itself.</p>
-      
-      <h3>Challenges and Considerations</h3>
-      <p>While the potential is enormous, implementing ML in education comes with challenges including data privacy, algorithm bias, and the need for teacher training. Educational institutions must carefully balance innovation with ethical considerations.</p>
-      
-      <p>As we move forward, the integration of ML in education will continue to evolve, promising more accessible, effective, and engaging learning experiences for students worldwide.</p>
-    `,
-    author: "Dr. Sarah Johnson",
-    publishDate: "2024-08-15",
-    readTime: "8 min read",
-    category: "Technology",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
-    tags: ["AI", "Education", "Machine Learning", "EdTech"],
-    views: 1240,
-    likes: 89
-  },
-  {
-    id: 2,
-    title: "Building Effective Online Learning Communities",
-    excerpt: "Learn the strategies and best practices for creating engaging virtual learning environments.",
-    content: `
-      <p>Online learning communities have become essential for successful digital education. They provide the social interaction and collaborative learning that traditional online courses often lack.</p>
-      
-      <h3>Creating Engagement</h3>
-      <p>Successful online communities require active moderation, regular content updates, and opportunities for meaningful interaction. Discussion forums, peer reviews, and collaborative projects help build connections among learners.</p>
-      
-      <h3>Technology Tools</h3>
-      <p>Modern platforms offer various tools to facilitate community building: video conferencing, chat systems, collaborative workspaces, and social learning features. Choosing the right combination is crucial for community success.</p>
-      
-      <h3>Best Practices</h3>
-      <p>Regular virtual events, mentorship programs, and gamification elements can significantly boost engagement. Clear community guidelines and responsive support also contribute to a positive learning environment.</p>
-      
-      <p>The future of online education depends heavily on our ability to create meaningful connections in virtual spaces, making community building a critical skill for educators and platform designers alike.</p>
-    `,
-    author: "Michael Chen",
-    publishDate: "2024-08-10",
-    readTime: "6 min read",
-    category: "Community",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=400&fit=crop",
-    tags: ["Online Learning", "Community", "Engagement", "Education"],
-    views: 892,
-    likes: 67
-  },
-  {
-    id: 3,
-    title: "Microlearning: The Power of Bite-Sized Education",
-    excerpt: "Explore how breaking down complex topics into small, digestible chunks can improve learning outcomes.",
-    content: `
-      <p>Microlearning has emerged as one of the most effective educational strategies for our fast-paced world. By delivering content in small, focused segments, learners can better retain information and fit education into their busy schedules.</p>
-      
-      <h3>The Science Behind Microlearning</h3>
-      <p>Research shows that our brains process information more effectively when it's presented in small chunks. This approach aligns with cognitive load theory and the spacing effect, leading to better long-term retention.</p>
-      
-      <h3>Implementation Strategies</h3>
-      <p>Effective microlearning involves breaking complex topics into 3-5 minute modules, using multimedia elements, and providing immediate application opportunities. Mobile-friendly formats are essential for accessibility.</p>
-      
-      <h3>Benefits for Modern Learners</h3>
-      <p>Microlearning fits perfectly with today's attention spans and busy lifestyles. It reduces cognitive overload, increases completion rates, and allows for just-in-time learning when specific skills are needed.</p>
-      
-      <p>As educational technology continues to evolve, microlearning will play an increasingly important role in making education more accessible and effective for diverse learning styles and schedules.</p>
-    `,
-    author: "Emma Rodriguez",
-    publishDate: "2024-08-05",
-    readTime: "5 min read",
-    category: "Learning Methods",
-    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=400&fit=crop",
-    tags: ["Microlearning", "Education", "Learning Methods", "Productivity"],
-    views: 1156,
-    likes: 94
-  }
-];
+const BlogPage = () => {
+  const [activeCategory, setActiveCategory] = useState('All');
 
-// Blog List Component
-const BlogList = ({ onSelectBlog }) => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  
-  const categories = ['All', 'Technology', 'Community', 'Learning Methods'];
-  
-  const filteredBlogs = selectedCategory === 'All' 
-    ? blogData 
-    : blogData.filter(blog => blog.category === selectedCategory);
+  // Blog data - Techlight IT Institute related
+  const blogPosts = [
+    {
+      id: 1,
+      title: "Why Choose Job-Oriented IT Training in Bangladesh",
+      excerpt: "Discover how Techlight's job-oriented approach bridges the gap between academic learning and industry demands, ensuring 98% employment rate for our graduates.",
+      date: "January 15, 2025",
+      author: "Md. Rafiqul Islam",
+      readTime: "6 min read",
+      category: "Career",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      tags: ["Career Development", "IT Training", "Bangladesh"]
+    },
+    {
+      id: 2,
+      title: "Top 5 IT Skills in Demand for 2025",
+      excerpt: "Learn about the most sought-after IT skills in Bangladesh's job market and how Techlight's curriculum prepares you for these opportunities.",
+      date: "January 10, 2025",
+      author: "Sultana Khatun",
+      readTime: "8 min read",
+      category: "Technology",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      tags: ["AI", "Cloud Computing", "Cybersecurity", "Web Development"]
+    },
+    {
+      id: 3,
+      title: "Success Story: From Unemployed to Senior Developer",
+      excerpt: "Read how Ahmed transformed his career through Techlight's comprehensive training program and landed his dream job at a top tech company.",
+      date: "December 28, 2024",
+      author: "Nasir Ahmed",
+      readTime: "5 min read",
+      category: "Success Story",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      tags: ["Success Story", "Career Change", "Programming"]
+    },
+    {
+      id: 4,
+      title: "Digital Bangladesh 2025: IT Industry Growth",
+      excerpt: "Explore how Bangladesh's IT sector is expanding and creating thousands of job opportunities for skilled professionals.",
+      date: "December 20, 2024",
+      author: "Dr. Farida Rahman",
+      readTime: "10 min read",
+      category: "Industry",
+      image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      tags: ["Digital Bangladesh", "IT Industry", "Economic Growth"]
+    },
+    {
+      id: 5,
+      title: "Web Development vs Mobile App Development: Which to Choose?",
+      excerpt: "Compare career prospects, salary ranges, and learning paths for web and mobile development in Bangladesh's tech market.",
+      date: "December 15, 2024",
+      author: "Khalil Rahman",
+      readTime: "7 min read",
+      category: "Technology",
+      image: "https://images.unsplash.com/photo-1607743386760-88ac62b89b8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      tags: ["Web Development", "Mobile App", "Career Guide"]
+    },
+    {
+      id: 6,
+      title: "How to Prepare for IT Job Interviews in Bangladesh",
+      excerpt: "Essential tips and strategies from Techlight's career counselors to help you ace technical interviews and land your first IT job.",
+      date: "December 10, 2024",
+      author: "Rashida Begum",
+      readTime: "9 min read",
+      category: "Career",
+      image: "https://images.unsplash.com/photo-1616587226157-48e49175ee20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      tags: ["Interview Tips", "Job Search", "Technical Skills"]
+    }
+  ];
+
+  // Categories for filtering
+  const categories = ['All', 'Career', 'Technology', 'Success Story', 'Industry'];
+
+  // Filter posts by category
+  const filteredPosts = activeCategory === 'All'
+    ? blogPosts
+    : blogPosts.filter(post => post.category === activeCategory);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Blog</h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Insights, tips, and stories from the world of online education and technology
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <motion.header
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Techlight IT Institute Blog</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Career insights, industry updates, success stories, and expert guidance for Bangladesh's aspiring IT professionals.
+          </p>
+        </motion.header>
 
-      {/* Category Filter */}
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
-        {categories.map((category) => (
-          <button
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${
-              selectedCategory === category
-                ? 'bg-yellow-400 text-gray-900'
-                : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-            }`}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      {/* Blog Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredBlogs.map((blog) => (
-          <article
-            key={blog.id}
-            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-            onClick={() => onSelectBlog(blog)}
-          >
-            <div className="relative">
-              <img
-                src={blog.image}
-                alt={blog.title}
-                className="w-full h-48 object-cover"
+        {/* Search and Filter */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-12"
+        >
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            {/* Search Bar */}
+            <div className="relative w-full md:w-96">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FiSearch className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search career tips, success stories..."
+                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm"
               />
-              <div className="absolute top-4 left-4">
-                <span className="bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-medium">
-                  {blog.category}
-                </span>
-              </div>
             </div>
-            
-            <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-                {blog.title}
-              </h3>
-              
-              <p className="text-gray-600 mb-4 line-clamp-3">
-                {blog.excerpt}
-              </p>
-              
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center">
-                    <User className="w-4 h-4 mr-1" />
-                    {blog.author}
-                  </div>
-                  <div className="flex items-center">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    {new Date(blog.publishDate).toLocaleDateString()}
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <Clock className="w-4 h-4 mr-1" />
-                  {blog.readTime}
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex space-x-4 text-sm text-gray-500">
-                  <div className="flex items-center">
-                    <Eye className="w-4 h-4 mr-1" />
-                    {blog.views}
-                  </div>
-                  <div className="flex items-center">
-                    <Heart className="w-4 h-4 mr-1" />
-                    {blog.likes}
-                  </div>
-                </div>
-                
-                <button className="flex items-center text-yellow-600 font-medium hover:text-yellow-700 transition-colors">
-                  Read More
-                  <ArrowRight className="w-4 h-4 ml-1" />
+
+            {/* Category Filter */}
+            <div className="flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${activeCategory === category
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                    }`}
+                >
+                  {category}
                 </button>
-              </div>
+              ))}
             </div>
-          </article>
-        ))}
+          </div>
+        </motion.div>
+
+        {/* Blog Posts Grid */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+        >
+          {filteredPosts.map((post, index) => (
+            <motion.article
+              key={post.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className="bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl group"
+            >
+              <div className="h-48 overflow-hidden">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-4 mb-3">
+                  <span className={`text-xs font-medium px-2.5 py-0.5 rounded ${post.category === 'Career' ? 'bg-green-100 text-green-800' :
+                      post.category === 'Technology' ? 'bg-blue-100 text-blue-800' :
+                        post.category === 'Success Story' ? 'bg-purple-100 text-purple-800' :
+                          post.category === 'Industry' ? 'bg-orange-100 text-orange-800' :
+                            'bg-gray-100 text-gray-800'
+                    }`}>
+                    {post.category}
+                  </span>
+                  <div className="flex items-center text-sm text-gray-500">
+                    <FiClock className="mr-1" />
+                    {post.readTime}
+                  </div>
+                </div>
+                <Link href={`/blogs/${post.id}`}>
+                  <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors cursor-pointer line-clamp-2">
+                    {post.title}
+                  </h2>
+                </Link>
+                <p className="text-gray-600 mb-4 text-sm line-clamp-3">{post.excerpt}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {post.tags.slice(0, 2).map((tag) => (
+                    <span key={tag} className="inline-flex items-center text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded">
+                      <FiTag className="mr-1" size={10} />
+                      {tag}
+                    </span>
+                  ))}
+                  {post.tags.length > 2 && (
+                    <span className="text-xs text-gray-400">+{post.tags.length - 2} more</span>
+                  )}
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center text-sm text-gray-500">
+                    <FiCalendar className="mr-1" size={14} />
+                    <span className="mr-3">{post.date}</span>
+                    <FiUser className="mr-1" size={14} />
+                    <span className="truncate">{post.author}</span>
+                  </div>
+                  <Link href={`/blogs/${post.id}`} className="flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors text-sm group">
+                    Read more <FiArrowRight className="ml-1 transform group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </motion.div>
+
+        {/* Newsletter Subscription */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 md:p-12 text-white text-center"
+        >
+          <h2 className="text-2xl font-bold mb-4">Stay Connected with Techlight</h2>
+          <p className="mb-6 max-w-2xl mx-auto opacity-90">
+            Subscribe to receive career guidance, course updates, success stories, and industry insights from Bangladesh's leading IT training institute.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Your email address"
+              className="flex-grow px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+            />
+            <button className="px-6 py-3 bg-white text-blue-600 font-medium rounded-lg hover:bg-gray-100 transition-colors shadow-md">
+              Subscribe
+            </button>
+          </div>
+          <p className="text-sm opacity-75 mt-4">
+            Join 5000+ successful IT professionals already in our community
+          </p>
+        </motion.div>
+
+        {/* Call to Action for Courses */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="mt-12 bg-white rounded-2xl p-8 shadow-lg text-center"
+        >
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Your IT Career?</h3>
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            Transform your career with Bangladesh's most trusted IT training institute. Join over 10,000 successful graduates who are working in top tech companies.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+              View Our Courses
+            </button>
+            <button className="px-8 py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors">
+              Contact Us
+            </button>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
 };
+
+export default BlogPage;
